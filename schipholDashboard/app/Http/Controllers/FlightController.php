@@ -8,7 +8,7 @@ class FlightController extends Controller
 {
     public function index()
     {
-        return "Index werkt";
+        return view ('home');
     }
 
     public function show($flight)

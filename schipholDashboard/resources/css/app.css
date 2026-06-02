@@ -1,11 +1,568 @@
-@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Judson:wght@400;700&display=swap');
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+:root {
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* green palette */
+    --green-900: #1a4726;
+    --green-700: #2d6a3f;
+    --green-600: #3a7d52;
+    --green-500: #4a9e65;
+    --green-400: #5cb87a;
+    --green-300: #86d4a0;
+    --green-100: #e6f4eb;
+    --green-50:  #f0faf3;
+    --white:     #ffffff;
+    --gray-50:   #f7f8fa;
+    --gray-100:  #eef0f3;
+    --gray-200:  #dde0e6;
+    --gray-600:  #6b7280;
+    --gray-800:  #1f2937;
+
+    /* shadows */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+    --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+    --radius:    14px;
+
+    /* typography */
+    --font-body:    'Poppins', sans-serif;
+    --font-display: 'Poppins', sans-serif;
+    --font-serif:   'Judson', serif;
 }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+a { text-decoration: none; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--gray-50);
+    color: var(--gray-800);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+}
+
+p {
+    font-family: var(--font-serif);
+    line-height: 1.7;
+}
+
+/* homepage css */
+.homepage-hero {
+    position: relative;
+    min-height: 78vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: hidden;
+    background: url('https://images.unsplash.com/photo-1529074963764-98f45c47344b?w=1600&q=80') center center / cover no-repeat;
+}
+
+.homepage-hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(26, 71, 38, 0.90) 0%, rgba(45, 106, 63, 0.82) 50%, rgba(26, 71, 38, 0.76) 100%);
+}
+
+/* ticker werkt maar kan verbeteren/ cleaner maken */
+.homepage-hero__ticker {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    background: rgba(0,0,0,0.35);
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+    overflow: hidden;
+    height: 36px;
+}
+
+.homepage-hero__ticker-label {
+    flex-shrink: 0;
+    background: #22c55e;
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0 14px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.homepage-hero__ticker-track {
+    display: flex;
+    gap: 48px;
+    animation: tickerScroll 28s linear infinite;
+    white-space: nowrap;
+    padding-left: 32px;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.80);
+}
+
+.homepage-hero__ticker-track span::before {
+    content: '·';
+    margin-right: 48px;
+    opacity: 0.4;
+}
+
+@keyframes tickerScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+.homepage-hero__content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 52px 40px 56px;
+    flex: 1;
+}
+
+/* meta */
+.homepage-hero__meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    text-transform: uppercase;
+}
+
+.homepage-hero__meta-sep { opacity: 0.4; }
+
+.homepage-hero__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.homepage-hero__icon { 
+    font-size: 0.85em; 
+    display: inline-block;
+}
+
+/* description */
+.homepage-hero__description {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.85);
+    max-width: 660px;
+    line-height: 1.75;
+    margin-bottom: 32px;
+}
+
+/* search (testen om mobiel) */
+.homepage-hero__search {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.14);
+    border: 1.5px solid rgba(255,255,255,0.30);
+    border-radius: 10px;
+    padding: 0 0 0 20px;
+    max-width: 640px;
+    margin-bottom: 36px;
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+}
+
+.homepage-hero__search:focus-within {
+    border-color: rgba(255,255,255,0.65);
+    background: rgba(255,255,255,0.20);
+}
+
+.homepage-hero__search-icon { 
+    font-size: 1rem; 
+    color: #86efac; 
+    flex-shrink: 0; 
+    margin-right: 10px; 
+}
+
+.homepage-hero__search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 14px 0;
+    font-size: 0.92rem;
+    color: #ffffff;
+}
+
+.homepage-hero__search-input::placeholder { 
+    color: rgba(255,255,255,0.50); 
+}
+
+.homepage-hero__search-btn {
+    flex-shrink: 0;
+    background: #16a34a;
+    border: none;
+    color: #ffffff;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 0 22px;
+    height: 100%;
+    min-height: 48px;
+    cursor: pointer;
+}
+
+.homepage-hero__search-btn:hover { 
+    background: #22c55e; 
+}
+
+/* stats moet nog responsive */
+.homepage-hero__stats {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    background: rgba(0,0,0,0.22);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 16px 28px;
+    max-width: 560px;
+    backdrop-filter: blur(6px);
+}
+
+.homepage-hero__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    gap: 2px;
+}
+
+.homepage-hero__stat-num {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.homepage-hero__stat-label {
+    font-size: 0.70rem;
+    color: rgba(255,255,255,0.60);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
+}
+
+.homepage-hero__stat-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(255,255,255,0.18);
+    flex-shrink: 0;
+}
+
+/* cards, check of t goed staat */
+.homepage-hero__cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+@media (max-width: 900px) { 
+    .homepage-hero__cards { 
+        grid-template-columns: repeat(2, 1fr); 
+    } 
+}
+
+@media (max-width: 540px) { 
+    .homepage-hero__cards { 
+        grid-template-columns: 1fr; 
+    } 
+}
+
+.homepage-hero-card {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.homepage-hero-card--dark {
+    background: #15803d;
+    border: 1.5px solid #16a34a;
+    color: #ffffff;
+}
+
+.homepage-hero-card--dark:hover {
+    background: #16a34a;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+}
+
+.homepage-hero-card--light {
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.22);
+    color: #ffffff;
+    backdrop-filter: blur(6px);
+}
+
+.homepage-hero-card--light:hover {
+    background: rgba(255,255,255,0.20);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.20);
+}
+
+.homepage-hero-card__icon { 
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.homepage-hero-card__title {
+    font-size: 0.93rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.homepage-hero-card__sub {
+    font-size: 0.80rem;
+    opacity: 0.78;
+    line-height: 1.4;
+}
+
+.homepage-flights {
+    background: #f9fafb;
+    padding: 56px 40px 72px;
+}
+
+.homepage-flights__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.homepage-flights__heading {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #1f2937;
+    margin-bottom: 28px;
+}
+
+.homepage-flights__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+@media (max-width: 900px) { 
+    .homepage-flights__grid { 
+        grid-template-columns: 1fr; 
+    } 
+}
+
+/* flight cards */
+.homepage-flight-card {
+    background: #ffffff;
+    border: 1.5px solid #f3f4f6;
+    border-radius: 12px;
+    padding: 24px 22px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.homepage-flight-card:hover { 
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); 
+}
+
+.homepage-flight-card--active {
+    border-color: #4ade80;
+    box-shadow: 0 0 0 3px rgba(74,158,101,.10), 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+/*homepage header */
+.homepage-flight-card__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.homepage-flight-card__badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    background: #dcfce7;
+    font-size: 1.2rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.homepage-flight-card__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1.2;
+}
+
+.homepage-flight-card__subtitle {
+    font-size: 0.75rem;
+    color: #4b5563;
+}
+
+.homepage-flight-card__empty {
+    text-align: center;
+    padding: 20px;
+    color: #4b5563;
+    font-size: 0.85rem;
+}
+
+/* flight rows */
+.homepage-flight-card__list { 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.homepage-flight-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.homepage-flight-row:last-child { 
+    border-bottom: none; 
+}
+
+.homepage-flight-row--dest { 
+    gap: 0; 
+    justify-content: space-between; 
+}
+
+.homepage-flight-row__airline {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: #f0fdf4;
+    border: 1px solid #dcfce7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #15803d;
+}
+
+.homepage-flight-row__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.homepage-flight-row__city {
+    font-weight: 600;
+    font-size: 0.90rem;
+    color: #1f2937;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.homepage-flight-row__code {
+    font-size: 0.75rem;
+    color: #4b5563;
+}
+
+.homepage-flight-row__right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+    flex-shrink: 0;
+}
+
+.homepage-flight-row__time {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #16a34a;
+}
+
+/* status van tailwind */
+.homepage-flight-row__status {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.homepage-flight-row__status--op-tijd {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.homepage-flight-row__status--vertraging {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.homepage-flight-row__status--geland {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.homepage-flight-row__status--boarding {
+    background: #f3e8ff;
+    color: #6b21a8;
+}
+
+/* dest trend */
+.homepage-dest-trend {
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+.homepage-dest-trend--up { 
+    color: #16a34a; 
+}
+
+.homepage-dest-trend--down { 
+    color: #dc2626; 
+}
+
+.homepage-dest-trend--stable { 
+    color: #4b5563; 
+}
+
+/* responsive */
+@media (max-width: 640px) {
+    .homepage-hero__content { 
+        padding: 36px 20px 36px; 
+    }
+    .homepage-flights { 
+        padding: 36px 20px 56px; 
+    }
+    .homepage-hero__stats { 
+        max-width: 100%; 
+        padding: 14px 16px; 
+    }
+}
+
+/* fix dat ticker niet glitch op mobiel */

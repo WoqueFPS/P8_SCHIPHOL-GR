@@ -4,9 +4,10 @@ use App\Http\Controllers\FlightController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 
 // Homepage
-Route::get('/', [FlightController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Vluchten
 Route::get('/flights', [FlightController::class, 'index'])->name('flights.index');
