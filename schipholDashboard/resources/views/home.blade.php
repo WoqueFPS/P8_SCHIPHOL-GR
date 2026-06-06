@@ -93,26 +93,70 @@
 
         {{-- Quick links --}}
         <div class="homepage-hero__cards">
-            <a href="#" class="homepage-hero-card homepage-hero-card--dark">
+            <a href="{{ route('flights.index') }}" class="homepage-hero-card homepage-hero-card--dark">
                 <span class="homepage-hero-card__icon">FL</span>
                 <strong class="homepage-hero-card__title">Vluchten bekijken</strong>
                 <span class="homepage-hero-card__sub">Bekijk alle beschikbare vluchten</span>
             </a>
-            <a href="#" class="homepage-hero-card homepage-hero-card--dark">
-                <span class="homepage-hero-card__icon">BK</span>
-                <strong class="homepage-hero-card__title">Boeking maken</strong>
-                <span class="homepage-hero-card__sub">Boek uw vlucht eenvoudig online</span>
-            </a>
-            <a href="#" class="homepage-hero-card homepage-hero-card--light">
-                <span class="homepage-hero-card__icon">CR</span>
-                <strong class="homepage-hero-card__title">Login vluchtcoördinator</strong>
-                <span class="homepage-hero-card__sub">Toegang voor coördinatoren</span>
-            </a>
-            <a href="#" class="homepage-hero-card homepage-hero-card--light">
-                <span class="homepage-hero-card__icon">DR</span>
-                <strong class="homepage-hero-card__title">Login directeur</strong>
-                <span class="homepage-hero-card__sub">Toegang voor directieleden</span>
-            </a>
+            
+            {{-- Boeking maken button met check of ingelogd --}}
+            @auth
+                <a href="{{ route('dashboard') }}" class="homepage-hero-card homepage-hero-card--dark">
+                    <span class="homepage-hero-card__icon">BK</span>
+                    <strong class="homepage-hero-card__title">Boeking maken</strong>
+                    <span class="homepage-hero-card__sub">Ga naar dashboard om te boeken</span>
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="homepage-hero-card homepage-hero-card--dark">
+                    <span class="homepage-hero-card__icon">BK</span>
+                    <strong class="homepage-hero-card__title">Boeking maken</strong>
+                    <span class="homepage-hero-card__sub">Log eerst in om een boeking te maken</span>
+                </a>
+            @endauth
+            
+            @auth
+                @if(Auth::user()->role === 'coordinator' || Auth::user()->role === 'admin')
+                <a href="{{ route('flights.manage') }}" class="homepage-hero-card homepage-hero-card--light">
+                    <span class="homepage-hero-card__icon">CR</span>
+                    <strong class="homepage-hero-card__title">Vluchtcoördinator</strong>
+                    <span class="homepage-hero-card__sub">Beheer vluchten en gates</span>
+                </a>
+                @else
+                <a href="#" class="homepage-hero-card homepage-hero-card--light" onclick="alert('Alleen voor vluchtcoördinatoren. Vraag toegang aan bij je leidinggevende.'); return false;">
+                    <span class="homepage-hero-card__icon">CR</span>
+                    <strong class="homepage-hero-card__title">Vluchtcoördinator</strong>
+                    <span class="homepage-hero-card__sub">Toegang voor coördinatoren</span>
+                </a>
+                @endif
+            @else
+                <a href="{{ route('login') }}" class="homepage-hero-card homepage-hero-card--light">
+                    <span class="homepage-hero-card__icon">CR</span>
+                    <strong class="homepage-hero-card__title">Login vluchtcoördinator</strong>
+                    <span class="homepage-hero-card__sub">Toegang voor coördinatoren</span>
+                </a>
+            @endauth
+            
+            @auth
+                @if(Auth::user()->role === 'director' || Auth::user()->role === 'admin')
+                <a href="{{ route('reports.index') }}" class="homepage-hero-card homepage-hero-card--light">
+                    <span class="homepage-hero-card__icon">DR</span>
+                    <strong class="homepage-hero-card__title">Directeur</strong>
+                    <span class="homepage-hero-card__sub">Bekijk rapportages</span>
+                </a>
+                @else
+                <a href="#" class="homepage-hero-card homepage-hero-card--light" onclick="alert('Alleen voor directieleden. Vraag toegang aan bij je leidinggevende.'); return false;">
+                    <span class="homepage-hero-card__icon">DR</span>
+                    <strong class="homepage-hero-card__title">Directeur</strong>
+                    <span class="homepage-hero-card__sub">Toegang voor directieleden</span>
+                </a>
+                @endif
+            @else
+                <a href="{{ route('login') }}" class="homepage-hero-card homepage-hero-card--light">
+                    <span class="homepage-hero-card__icon">DR</span>
+                    <strong class="homepage-hero-card__title">Login directeur</strong>
+                    <span class="homepage-hero-card__sub">Toegang voor directieleden</span>
+                </a>
+            @endauth
         </div>
     </div>
 </section>

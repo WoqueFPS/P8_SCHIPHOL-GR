@@ -8,7 +8,8 @@ class FlightController extends Controller
 {
     public function index()
     {
-        return view ('home');
+        $flights = \App\Models\Flight::all();
+        return view('flights.index', compact('flights'));
     }
 
     public function show($flight)
@@ -29,5 +30,17 @@ class FlightController extends Controller
     public function removeFromWishlist($flight)
     {
         return "Removed from wishlist " . $flight;
+    }
+
+    public function manage()
+    {
+        // extra security
+        if (!auth()->user() || !in_array(auth()->user()->role, ['coordinator', 'admin'])) {
+            abort(403, 'Alleen toegankelijk voor vluchtcoordinatoren.');
+        }
+
+        $flights = \App\Models\Flight::all();
+
+        return view('flights.manage', compact('flights'));
     }
 }
