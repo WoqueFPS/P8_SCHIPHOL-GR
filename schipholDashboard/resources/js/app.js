@@ -72,3 +72,50 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // fix als je zoekt en leegmaakt dat t blijft werken
 });
+
+
+//wachtwoord toggle login en register
+window.toggleLoginPassword = function() {
+    const input = document.getElementById('login_password');
+    const eyeIcon = document.getElementById('login-eye-icon');
+    
+    if (!input || !eyeIcon) return;
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94z"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19z"/><line x1="1" y1="1" x2="23" y2="23"/>';
+    } else {
+        input.type = 'password';
+        eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+    }
+};
+
+window.toggleRegisterPassword = function() {
+    const input = document.getElementById('register_password');
+    const eyeIcon = document.getElementById('register-eye-icon-pw');
+    
+    if (!input || !eyeIcon) return;
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94z"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19z"/><line x1="1" y1="1" x2="23" y2="23"/>';
+    } else {
+        input.type = 'password';
+        eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+    }
+};
+
+window.toggleRegisterPasswordConfirm = function() {
+    const input = document.getElementById('register_password_confirmation');
+    const eyeIcon = document.getElementById('register-eye-icon-confirm');
+    
+    if (!input || !eyeIcon) return;
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94z"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19z"/><line x1="1" y1="1" x2="23" y2="23"/>';
+    } else {
+        input.type = 'password';
+        eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+    }
+};
