@@ -9,62 +9,53 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // login 
-    public function loginForm()
-    {
-        return view('auth.login');
-    }
+    //login
+    public function loginForm(){return view('auth.login');}
 
-    //login edit
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'email'    => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials, $request->remember)) {
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->intended(route('dashboard'));
         }
 
-        return back()->withErrors([
-            'email' => 'Deze gegevens komen niet overeen met onze gegevens.',
-        ])->onlyInput('email');
+        return back()
+            ->withErrors(['email' => 'Deze gegevens komen niet overeen met onze gegevens.'])
+            ->onlyInput('email');
     }
 
-    // register form tonen
-    public function registerForm()
-    {
-        return view('auth.register');
-    }
+    //register
+    public function registerForm(){return view('auth.register');}
 
-    //register verwerken
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        $validated = $request->validate([
+            'name'                  => ['required', 'string', 'max:255'],
+            'email'                 => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'              => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name'     => $validated['name'],
+            'email'    => $validated['email'],
+            'password' => Hash::make($validated['password']),
         ]);
 
         Auth::login($user);
-
-        return redirect('/dashboard');
+        return redirect()->route('dashboard');
     }
 
-    // uitloggen (moet nog gevoegd worden)
+    //logout
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect()->route('home');
     }
 }
