@@ -15,11 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+        AirlineSeeder::class,
+        FlightSeeder::class,
+        GateSeeder::class,
+        RoleSeeder::class,
+        ]);
 
-        User::factory()->create([
+        User::updateOrCreate([       
+            'email' => 'test@example.com'],
+            [
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'password' => bcrypt('password'),
         ]);
     }
 }

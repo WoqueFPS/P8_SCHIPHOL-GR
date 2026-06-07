@@ -32,11 +32,11 @@
 
         <div class="register-panel__body">
             <h2 class="register-panel__tagline">
-                Word <em>onderdeel</em> van<br>
+                Registreer als <em>reiziger</em> bij<br>
                 Gatekeepers Schiphol
             </h2>
             <p class="register-panel__sub">
-                Registreer als medewerker en krijg toegang tot vluchtbeheer, gate coördinatie en realtime rapportages.
+                Krijg direct toegang tot vluchtbeheer, gate coördinatie en realtime rapportages voor jouw reis.
             </p>
         </div>
 
@@ -151,7 +151,7 @@
 
                 {{-- submit knop --}}
                 <button type="submit" class="register-btn-primary">
-                    Registreer als medewerker
+                    Registreer als reiziger
                 </button>
 
                 {{-- of ga verder met --}}

@@ -74,14 +74,13 @@ p {
     background: linear-gradient(135deg, rgba(26, 71, 38, 0.90) 0%, rgba(45, 106, 63, 0.82) 50%, rgba(26, 71, 38, 0.76) 100%);
 }
 
-/* ticker werkt maar kan verbeteren/ cleaner maken */
 .homepage-hero__ticker {
     position: relative;
     z-index: 2;
     display: flex;
     align-items: center;
-    background: rgba(0,0,0,0.35);
-    border-bottom: 1px solid rgba(255,255,255,0.10);
+    background: rgba(0, 0, 0, 0.35);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
     overflow: hidden;
     height: 36px;
 }
@@ -107,7 +106,8 @@ p {
     white-space: nowrap;
     padding-left: 32px;
     font-size: 0.78rem;
-    color: rgba(255,255,255,0.80);
+    color: rgba(255, 255, 255, 0.80);
+    will-change: transform;
 }
 
 .homepage-hero__ticker-track span::before {
@@ -117,8 +117,8 @@ p {
 }
 
 @keyframes tickerScroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
 }
 
 .homepage-hero__content {
@@ -168,12 +168,11 @@ p {
     margin-bottom: 32px;
 }
 
-/* search (testen om mobiel) */
 .homepage-hero__search {
     display: flex;
     align-items: center;
-    background: rgba(255,255,255,0.14);
-    border: 1.5px solid rgba(255,255,255,0.30);
+    background: rgba(255, 255, 255, 0.14);
+    border: 1.5px solid rgba(255, 255, 255, 0.30);
     border-radius: 10px;
     padding: 0 0 0 20px;
     max-width: 640px;
@@ -183,8 +182,8 @@ p {
 }
 
 .homepage-hero__search:focus-within {
-    border-color: rgba(255,255,255,0.65);
-    background: rgba(255,255,255,0.20);
+    border-color: rgba(255, 255, 255, 0.65);
+    background: rgba(255, 255, 255, 0.20);
 }
 
 .homepage-hero__search-icon { 
@@ -202,10 +201,11 @@ p {
     padding: 14px 0;
     font-size: 0.92rem;
     color: #ffffff;
+    min-width: 0;
 }
 
 .homepage-hero__search-input::placeholder { 
-    color: rgba(255,255,255,0.50); 
+    color: rgba(255, 255, 255, 0.50); 
 }
 
 .homepage-hero__search-btn {
@@ -216,22 +216,23 @@ p {
     font-size: 0.88rem;
     font-weight: 600;
     padding: 0 22px;
-    height: 100%;
-    min-height: 48px;
+    height: 48px;
     cursor: pointer;
+    transition: background 0.2s ease;
 }
 
 .homepage-hero__search-btn:hover { 
     background: #22c55e; 
 }
 
-/* stats moet nog responsive */
 .homepage-hero__stats {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 16px 0;
     margin-bottom: 40px;
-    background: rgba(0,0,0,0.22);
-    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 10px;
     padding: 16px 28px;
     max-width: 560px;
@@ -243,6 +244,7 @@ p {
     flex-direction: column;
     align-items: center;
     flex: 1;
+    min-width: 100px;
     gap: 2px;
 }
 
@@ -255,7 +257,7 @@ p {
 
 .homepage-hero__stat-label {
     font-size: 0.70rem;
-    color: rgba(255,255,255,0.60);
+    color: rgba(255, 255, 255, 0.60);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     text-align: center;
@@ -264,11 +266,10 @@ p {
 .homepage-hero__stat-divider {
     width: 1px;
     height: 32px;
-    background: rgba(255,255,255,0.18);
+    background: rgba(255, 255, 255, 0.18);
     flex-shrink: 0;
 }
 
-/* cards, check of t goed staat */
 .homepage-hero__cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -565,7 +566,20 @@ p {
     }
 }
 
-/* fix dat ticker niet glitch op mobiel */
+/* EExtra media query voor de stats divider op mobile screen */
+@media (max-width: 480px) {
+    .homepage-hero__stat-divider{
+        display: none;
+    }
+    .homepage-hero__stat {
+        flex: 1 1 100%;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .homepage-hero__stat:last-child{
+        border-bottom: none;
+    }
+}
 
 /* LOGIN EN REGISTER */
 /*LOGIN PAGINA STYLES */

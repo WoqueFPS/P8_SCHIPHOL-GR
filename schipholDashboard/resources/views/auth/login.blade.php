@@ -36,8 +36,7 @@
                 Gatekeepers Schiphol
             </h2>
             <p class="login-panel__sub">
-                Log in om vluchten te beheren, gates te coördineren en rapportages in te zien.
-                Alles staat voor je klaar.
+                Log in om jouw vluchtgegevens te bekijken, gate-informatie te controleren en realtime updates over jouw reis te ontvangen.
             </p>
         </div>
 
