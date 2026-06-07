@@ -21,7 +21,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended('/dashboard');
         }
 
         return back()
@@ -40,22 +40,20 @@ class AuthController extends Controller
             'password'              => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $user = User::create([
-            'name'     => $validated['name'],
-            'email'    => $validated['email'],
+        $request->session()->put('pending_registration', [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
-
-        Auth::login($user);
-        return redirect()->route('dashboard');
+        
+        return redirect()->route('terms.verify');
     }
 
-    //logout
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('home');
+        return redirect('/');
     }
 }

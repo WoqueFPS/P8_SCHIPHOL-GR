@@ -1,0 +1,1 @@
+'terms.check' => \App\Http\Middleware\CheckTermsAccepted::class,

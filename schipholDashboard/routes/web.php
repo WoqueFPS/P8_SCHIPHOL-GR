@@ -7,30 +7,40 @@ use App\Http\Controllers\FlightController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Staff\AuthController as StaffAuthController;
+use App\Http\Controllers\TermsController;
 use Illuminate\Support\Facades\Route;
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// statische pagina
+Route::get('/terms', fn() => view('pages.terms'))->name('terms.show');
+
 //publieke vluchtinfo
-Route::get('/flights',          [FlightController::class, 'index'])->name('flights.index');
-Route::get('/flights/search',   [FlightController::class, 'search'])->name('flights.search');
+Route::get('/flights', [FlightController::class, 'index'])->name('flights.index');
+Route::get('/flights/search', [FlightController::class, 'search'])->name('flights.search');
 Route::get('/flights/{flight}', [FlightController::class, 'show'])->name('flights.show');
 
 //REIZIGERS web guard
 
 // gasten only (niet ingelogde reizigers)
 Route::middleware('guest')->group(function () {
-    Route::get('/login',    [AuthController::class, 'loginForm'])->name('login');
-    Route::post('/login',   [AuthController::class, 'login']);
+
+    Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
     Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
-    Route::post('/register',[AuthController::class, 'register']);
+    Route::post('/register', [AuthController::class, 'register']);
+
 });
 
+// terms routes staan buiten auth middleware omdat we willen dat mensen die nog niet akkoord hebben gegaan hier ook bij kunnen
+Route::get('/terms-verify', [TermsController::class, 'showTerms'])->name('terms.verify');
+Route::post('/terms/accept', [TermsController::class, 'acceptTerms'])->name('terms.accept');
+Route::post('/terms/reject', [TermsController::class, 'rejectTerms'])->name('terms.reject');
+
+
 //uitloggen
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->name('logout')
-    ->middleware('auth');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // Ingelogde reizigers
 Route::middleware('auth')->group(function () {
@@ -48,9 +58,8 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('staff')->name('staff.')->group(function () {
 
-    // gasten only (niet ingelogde medewerkers)
     Route::middleware('guest:staff')->group(function () {
-        Route::get('/login',  [StaffAuthController::class, 'loginForm'])->name('login');
+        Route::get('/login', [StaffAuthController::class, 'loginForm'])->name('login');
         Route::post('/login', [StaffAuthController::class, 'login']);
     });
 
