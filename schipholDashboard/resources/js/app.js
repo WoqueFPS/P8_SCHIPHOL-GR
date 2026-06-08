@@ -119,3 +119,116 @@ window.toggleRegisterPasswordConfirm = function() {
         eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
     }
 };
+
+//!!terms verify functions!!
+//!!scroll functions!!
+const verifyScrollContainer = document.getElementById('verify-termsScrollBox');
+const verifyAgreeCheckbox = document.getElementById('verify-dashboardAgreeCheckbox');
+const verifyAcceptBtn = document.getElementById('verify-prettyAcceptBtn');
+const verifyDeclineBtn = document.getElementById('verify-prettyDeclineBtn');
+const verifyAgreeWrapper = document.getElementById('verify-agreeWrapper');
+const verifyTermsLink = document.getElementById('verify-termsLink');
+const verifyPrivacyLink = document.getElementById('verify-privacyLink');
+const verifyToastEl = document.getElementById('verify-toast');
+
+let verifyHasScrolledToBottom = false;
+function verifyIsScrolledToBottom(){
+    if (!verifyScrollContainer) return false;
+    const scrollTop = verifyScrollContainer.scrollTop;
+    const clientHeight = verifyScrollContainer.clientHeight;
+    const scrollHeight = verifyScrollContainer.scrollHeight;
+    return (scrollTop + clientHeight + 3) >= scrollHeight;
+}
+
+function verifyUpdateScrollRequirementState() {
+    const atBottom = verifyIsScrolledToBottom();
+    if (atBottom && !verifyHasScrolledToBottom) {
+        verifyHasScrolledToBottom = true;
+        // checkbox + wrapper active
+        verifyAgreeCheckbox.disabled = false;
+        verifyAgreeWrapper.classList.remove("verify-disabled-checkbox");
+        verifyAgreeWrapper.classList.add("verify-enabled-checkbox");
+        
+        verifyAcceptBtn.disabled = false;
+        if (verifyTermsLink) verifyTermsLink.classList.remove('verify-disabled-link');
+        if (verifyPrivacyLink) verifyPrivacyLink.classList.remove('verify-disabled-link');
+        //toast
+        verifyShowToast("Je hebt de volledige voorwaarden doorlopen. Je kunt nu akkoord gaan.", true);
+    } 
+    else if (!atBottom && !verifyHasScrolledToBottom) {
+        verifyAgreeCheckbox.disabled = true;
+        verifyAgreeCheckbox.checked = false;
+        verifyAgreeWrapper.classList.add("verify-disabled-checkbox");
+        verifyAgreeWrapper.classList.remove("verify-enabled-checkbox");
+        verifyAcceptBtn.disabled = true;
+        if (verifyTermsLink) verifyTermsLink.classList.add('verify-disabled-link');
+        if (verifyPrivacyLink) verifyPrivacyLink.classList.add('verify-disabled-link');
+    }
+
+    if (verifyHasScrolledToBottom){
+        verifyAgreeCheckbox.disabled = false;
+        verifyAgreeWrapper.classList.remove("verify-disabled-checkbox");
+        verifyAgreeWrapper.classList.add("verify-enabled-checkbox");
+        verifyAcceptBtn.disabled = false;
+        if (verifyTermsLink) verifyTermsLink.classList.remove('verify-disabled-link');
+        if (verifyPrivacyLink) verifyPrivacyLink.classList.remove('verify-disabled-link');
+    }
+}
+
+function verifyShowToast(message, isSuccess = true) {
+    verifyToastEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> ${message}`;
+    verifyToastEl.classList.add('verify-show');
+    setTimeout(() => verifyToastEl.classList.remove('verify-show'), 3500);
+}
+
+if (verifyScrollContainer){
+    verifyScrollContainer.addEventListener('scroll', verifyUpdateScrollRequirementState);
+    window.addEventListener('resize', () => verifyUpdateScrollRequirementState());
+    setTimeout(verifyUpdateScrollRequirementState, 100);
+}
+
+// toc actief met scrolle
+function verifySetActive(el){
+    document.querySelectorAll('.verify-toc-item').forEach(i => i.classList.remove('verify-active'));
+    el.classList.add('verify-active');
+}
+
+const verifySections = document.querySelectorAll('.verify-section[id]');
+const verifyItems = document.querySelectorAll('.verify-toc-item');
+
+window.addEventListener('scroll', () =>{
+    let cur = '';
+    verifySections.forEach(s => { 
+        if (window.scrollY >= s.offsetTop - 120) cur = s.id.replace('verify-', ''); 
+    });
+    verifyItems.forEach(i =>{ 
+        i.classList.toggle('verify-active', i.getAttribute('href') === '#verify-' + cur); 
+    });
+},{passive: true });
+
+//accept & toast msgs
+verifyAcceptBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!verifyHasScrolledToBottom) {
+        verifyShowToast("Je moet eerst volledig door de voorwaarden scrollen voordat je akkoord kan gaan.", false);
+        return;
+    }
+    if (!verifyAgreeCheckbox.checked) {
+        verifyShowToast("Je moet het akkoordvakje aanvinken.", false);
+        return;
+    }
+    const verifyAcceptForm = document.getElementById('verify-acceptForm');
+    const verifyHiddenAgree = document.getElementById('verify-backendAgreeHidden');
+    if (verifyHiddenAgree) verifyHiddenAgree.value = '1';
+    verifyAcceptForm.submit();
+    verifyShowToast("Verwerking... je wordt doorgestuurd.");
+});
+
+verifyDeclineBtn.addEventListener('click',(e) =>{
+    e.preventDefault();
+    const verifyRejectForm = document.getElementById('verify-rejectForm');
+    verifyRejectForm.submit();
+    verifyShowToast("Je hebt de voorwaarden niet geaccepteerd. Je wordt omgeleid.");
+});
+
+verifyUpdateScrollRequirementState();
