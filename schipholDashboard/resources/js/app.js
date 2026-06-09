@@ -1,5 +1,7 @@
 //homepage js functionaliteiten klok en zoekfunctie 
+import './nav.js';
 document.addEventListener('DOMContentLoaded', () => {
+    
 
     const clockEl = document.getElementById('homepage-liveClock');
     const dateEl  = document.getElementById('homepage-liveDate');

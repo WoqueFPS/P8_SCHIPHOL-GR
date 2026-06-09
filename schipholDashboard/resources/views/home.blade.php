@@ -13,6 +13,9 @@
 </head>
 <body>
 
+{{-- NAVBAR --}}
+@include('partials.navbar')
+
 {{-- HERO --}}
 <section class="homepage-hero">
     <div class="homepage-hero__overlay"></div>
@@ -98,7 +101,7 @@
                 <strong class="homepage-hero-card__title">Vluchten bekijken</strong>
                 <span class="homepage-hero-card__sub">Bekijk alle beschikbare vluchten</span>
             </a>
-            
+
             {{-- Boeking maken button met check of ingelogd --}}
             @auth
                 <a href="{{ route('dashboard') }}" class="homepage-hero-card homepage-hero-card--dark">
@@ -113,20 +116,20 @@
                     <span class="homepage-hero-card__sub">Log eerst in om een boeking te maken</span>
                 </a>
             @endauth
-            
+
             @auth
                 @if(Auth::user()->role === 'coordinator' || Auth::user()->role === 'admin')
-                <a href="{{ route('flights.manage') }}" class="homepage-hero-card homepage-hero-card--light">
-                    <span class="homepage-hero-card__icon">CR</span>
-                    <strong class="homepage-hero-card__title">Vluchtcoördinator</strong>
-                    <span class="homepage-hero-card__sub">Beheer vluchten en gates</span>
-                </a>
+                    <a href="{{ route('flights.manage') }}" class="homepage-hero-card homepage-hero-card--light">
+                        <span class="homepage-hero-card__icon">CR</span>
+                        <strong class="homepage-hero-card__title">Vluchtcoördinator</strong>
+                        <span class="homepage-hero-card__sub">Beheer vluchten en gates</span>
+                    </a>
                 @else
-                <a href="#" class="homepage-hero-card homepage-hero-card--light" onclick="alert('Alleen voor vluchtcoördinatoren. Vraag toegang aan bij je leidinggevende.'); return false;">
-                    <span class="homepage-hero-card__icon">CR</span>
-                    <strong class="homepage-hero-card__title">Vluchtcoördinator</strong>
-                    <span class="homepage-hero-card__sub">Toegang voor coördinatoren</span>
-                </a>
+                    <a href="#" class="homepage-hero-card homepage-hero-card--light" onclick="alert('Alleen voor vluchtcoördinatoren. Vraag toegang aan bij je leidinggevende.'); return false;">
+                        <span class="homepage-hero-card__icon">CR</span>
+                        <strong class="homepage-hero-card__title">Vluchtcoördinator</strong>
+                        <span class="homepage-hero-card__sub">Toegang voor coördinatoren</span>
+                    </a>
                 @endif
             @else
                 <a href="{{ route('login') }}" class="homepage-hero-card homepage-hero-card--light">
@@ -135,20 +138,20 @@
                     <span class="homepage-hero-card__sub">Toegang voor coördinatoren</span>
                 </a>
             @endauth
-            
+
             @auth
                 @if(Auth::user()->role === 'director' || Auth::user()->role === 'admin')
-                <a href="{{ route('reports.index') }}" class="homepage-hero-card homepage-hero-card--light">
-                    <span class="homepage-hero-card__icon">DR</span>
-                    <strong class="homepage-hero-card__title">Directeur</strong>
-                    <span class="homepage-hero-card__sub">Bekijk rapportages</span>
-                </a>
+                    <a href="{{ route('reports.index') }}" class="homepage-hero-card homepage-hero-card--light">
+                        <span class="homepage-hero-card__icon">DR</span>
+                        <strong class="homepage-hero-card__title">Directeur</strong>
+                        <span class="homepage-hero-card__sub">Bekijk rapportages</span>
+                    </a>
                 @else
-                <a href="#" class="homepage-hero-card homepage-hero-card--light" onclick="alert('Alleen voor directieleden. Vraag toegang aan bij je leidinggevende.'); return false;">
-                    <span class="homepage-hero-card__icon">DR</span>
-                    <strong class="homepage-hero-card__title">Directeur</strong>
-                    <span class="homepage-hero-card__sub">Toegang voor directieleden</span>
-                </a>
+                    <a href="#" class="homepage-hero-card homepage-hero-card--light" onclick="alert('Alleen voor directieleden. Vraag toegang aan bij je leidinggevende.'); return false;">
+                        <span class="homepage-hero-card__icon">DR</span>
+                        <strong class="homepage-hero-card__title">Directeur</strong>
+                        <span class="homepage-hero-card__sub">Toegang voor directieleden</span>
+                    </a>
                 @endif
             @else
                 <a href="{{ route('login') }}" class="homepage-hero-card homepage-hero-card--light">
@@ -181,27 +184,25 @@
                 </div>
                 <div class="homepage-flight-card__list">
                     @forelse($arriving as $f)
-                    <div class="homepage-flight-row" data-search="{{ strtolower($f->origin.' '.$f->flight_number.' '.$f->airline) }}">
-                        <div class="homepage-flight-row__airline">{{ $f->airline_code }}</div>
-                        <div class="homepage-flight-row__info">
-                            <span class="homepage-flight-row__city">{{ $f->origin }}</span>
-                            <span class="homepage-flight-row__code">
-                                {{ $f->flight_number }}
-                                @if($f->gate) · Gate {{ $f->gate }} @endif
-                                @if($f->delay_minutes > 0)
-                                    · +{{ $f->delay_minutes }} min
-                                @endif
-                            </span>
+                        <div class="homepage-flight-row" data-search="{{ strtolower($f->origin.' '.$f->flight_number.' '.$f->airline) }}">
+                            <div class="homepage-flight-row__airline">{{ $f->airline_code }}</div>
+                            <div class="homepage-flight-row__info">
+                                <span class="homepage-flight-row__city">{{ $f->origin }}</span>
+                                <span class="homepage-flight-row__code">
+                                    {{ $f->flight_number }}
+                                    @if($f->gate) · Gate {{ $f->gate }} @endif
+                                    @if($f->delay_minutes > 0) · +{{ $f->delay_minutes }} min @endif
+                                </span>
+                            </div>
+                            <div class="homepage-flight-row__right">
+                                <span class="homepage-flight-row__time">{{ \Carbon\Carbon::parse($f->scheduled_time)->format('H:i') }}</span>
+                                <span class="homepage-flight-row__status homepage-flight-row__status--{{ $f->status }}">
+                                    {{ ucfirst($f->status) }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="homepage-flight-row__right">
-                            <span class="homepage-flight-row__time">{{ \Carbon\Carbon::parse($f->scheduled_time)->format('H:i') }}</span>
-                            <span class="homepage-flight-row__status homepage-flight-row__status--{{ $f->status }}">
-                                {{ ucfirst($f->status) }}
-                            </span>
-                        </div>
-                    </div>
                     @empty
-                    <p class="homepage-flight-card__empty">Geen aankomende vluchten gevonden.</p>
+                        <p class="homepage-flight-card__empty">Geen aankomende vluchten gevonden.</p>
                     @endforelse
                 </div>
             </div>
@@ -219,27 +220,25 @@
                 </div>
                 <div class="homepage-flight-card__list">
                     @forelse($departing as $f)
-                    <div class="homepage-flight-row" data-search="{{ strtolower($f->destination.' '.$f->flight_number.' '.$f->airline) }}">
-                        <div class="homepage-flight-row__airline">{{ $f->airline_code }}</div>
-                        <div class="homepage-flight-row__info">
-                            <span class="homepage-flight-row__city">{{ $f->destination }}</span>
-                            <span class="homepage-flight-row__code">
-                                {{ $f->flight_number }}
-                                @if($f->gate) · Gate {{ $f->gate }} @endif
-                                @if($f->delay_minutes > 0)
-                                    · +{{ $f->delay_minutes }} min
-                                @endif
-                            </span>
+                        <div class="homepage-flight-row" data-search="{{ strtolower($f->destination.' '.$f->flight_number.' '.$f->airline) }}">
+                            <div class="homepage-flight-row__airline">{{ $f->airline_code }}</div>
+                            <div class="homepage-flight-row__info">
+                                <span class="homepage-flight-row__city">{{ $f->destination }}</span>
+                                <span class="homepage-flight-row__code">
+                                    {{ $f->flight_number }}
+                                    @if($f->gate) · Gate {{ $f->gate }} @endif
+                                    @if($f->delay_minutes > 0) · +{{ $f->delay_minutes }} min @endif
+                                </span>
+                            </div>
+                            <div class="homepage-flight-row__right">
+                                <span class="homepage-flight-row__time">{{ \Carbon\Carbon::parse($f->scheduled_time)->format('H:i') }}</span>
+                                <span class="homepage-flight-row__status homepage-flight-row__status--{{ $f->status }}">
+                                    {{ ucfirst($f->status) }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="homepage-flight-row__right">
-                            <span class="homepage-flight-row__time">{{ \Carbon\Carbon::parse($f->scheduled_time)->format('H:i') }}</span>
-                            <span class="homepage-flight-row__status homepage-flight-row__status--{{ $f->status }}">
-                                {{ ucfirst($f->status) }}
-                            </span>
-                        </div>
-                    </div>
                     @empty
-                    <p class="homepage-flight-card__empty">Geen vertrekkende vluchten gevonden.</p>
+                        <p class="homepage-flight-card__empty">Geen vertrekkende vluchten gevonden.</p>
                     @endforelse
                 </div>
             </div>
@@ -255,15 +254,15 @@
                 </div>
                 <div class="homepage-flight-card__list">
                     @forelse($popularDestinations as $dest)
-                    <div class="homepage-flight-row homepage-flight-row--dest">
-                        <div class="homepage-flight-row__info">
-                            <span class="homepage-flight-row__city">{{ $dest->destination }}</span>
-                            <span class="homepage-flight-row__code">{{ $dest->total }} vluchten/dag</span>
+                        <div class="homepage-flight-row homepage-flight-row--dest">
+                            <div class="homepage-flight-row__info">
+                                <span class="homepage-flight-row__city">{{ $dest->destination }}</span>
+                                <span class="homepage-flight-row__code">{{ $dest->total }} vluchten/dag</span>
+                            </div>
+                            <span class="homepage-dest-trend homepage-dest-trend--stable">→</span>
                         </div>
-                        <span class="homepage-dest-trend homepage-dest-trend--stable">→</span>
-                    </div>
                     @empty
-                    <p class="homepage-flight-card__empty">Geen bestemmingen gevonden.</p>
+                        <p class="homepage-flight-card__empty">Geen bestemmingen gevonden.</p>
                     @endforelse
                 </div>
             </div>
@@ -271,6 +270,9 @@
         </div>
     </div>
 </section>
+
+{{-- FOOTER --}}
+@include('partials.footer')
 
 </body>
 </html>
