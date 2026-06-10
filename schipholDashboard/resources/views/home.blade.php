@@ -117,47 +117,18 @@
                 </a>
             @endauth
 
-            @auth
-                @if(Auth::user()->role === 'coordinator' || Auth::user()->role === 'admin')
-                    <a href="{{ route('flights.manage') }}" class="homepage-hero-card homepage-hero-card--light">
-                        <span class="homepage-hero-card__icon">CR</span>
-                        <strong class="homepage-hero-card__title">Vluchtcoördinator</strong>
-                        <span class="homepage-hero-card__sub">Beheer vluchten en gates</span>
-                    </a>
-                @else
-                    <a href="#" class="homepage-hero-card homepage-hero-card--light" onclick="alert('Alleen voor vluchtcoördinatoren. Vraag toegang aan bij je leidinggevende.'); return false;">
-                        <span class="homepage-hero-card__icon">CR</span>
-                        <strong class="homepage-hero-card__title">Vluchtcoördinator</strong>
-                        <span class="homepage-hero-card__sub">Toegang voor coördinatoren</span>
-                    </a>
-                @endif
-            @else
-                <a href="{{ route('login') }}" class="homepage-hero-card homepage-hero-card--light">
-                    <span class="homepage-hero-card__icon">CR</span>
-                    <strong class="homepage-hero-card__title">Login vluchtcoördinator</strong>
-                    <span class="homepage-hero-card__sub">Toegang voor coördinatoren</span>
+            {{-- Medewerkers Knop (vangt staff guard op) --}}
+            @auth('staff')
+                <a href="{{ route('staff.dashboard') }}" class="homepage-hero-card homepage-hero-card--light">
+                    <span class="homepage-hero-card__icon">ST</span>
+                    <strong class="homepage-hero-card__title">Medewerkers Portaal</strong>
+                    <span class="homepage-hero-card__sub">Je bent ingelogd. Ga naar dashboard</span>
                 </a>
-            @endauth
-
-            @auth
-                @if(Auth::user()->role === 'director' || Auth::user()->role === 'admin')
-                    <a href="{{ route('reports.index') }}" class="homepage-hero-card homepage-hero-card--light">
-                        <span class="homepage-hero-card__icon">DR</span>
-                        <strong class="homepage-hero-card__title">Directeur</strong>
-                        <span class="homepage-hero-card__sub">Bekijk rapportages</span>
-                    </a>
-                @else
-                    <a href="#" class="homepage-hero-card homepage-hero-card--light" onclick="alert('Alleen voor directieleden. Vraag toegang aan bij je leidinggevende.'); return false;">
-                        <span class="homepage-hero-card__icon">DR</span>
-                        <strong class="homepage-hero-card__title">Directeur</strong>
-                        <span class="homepage-hero-card__sub">Toegang voor directieleden</span>
-                    </a>
-                @endif
             @else
-                <a href="{{ route('login') }}" class="homepage-hero-card homepage-hero-card--light">
-                    <span class="homepage-hero-card__icon">DR</span>
-                    <strong class="homepage-hero-card__title">Login directeur</strong>
-                    <span class="homepage-hero-card__sub">Toegang voor directieleden</span>
+                <a href="{{ route('staff.login') }}" class="homepage-hero-card homepage-hero-card--light">
+                    <span class="homepage-hero-card__icon">ST</span>
+                    <strong class="homepage-hero-card__title">Medewerkers Portaal</strong>
+                    <span class="homepage-hero-card__sub">Login voor coördinatoren & directie</span>
                 </a>
             @endauth
         </div>
