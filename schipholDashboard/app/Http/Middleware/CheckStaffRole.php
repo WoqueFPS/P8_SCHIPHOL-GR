@@ -11,11 +11,16 @@ class CheckStaffRole
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
         $staff = Auth::guard('staff')->user();
-
-        if (! $staff || ! $staff->hasRole(...$roles)) {
-            abort(403, 'Je hebt geen toegang tot deze pagina.');
+        if (!$staff){
+            abort(403, 'Je bent niet ingelogd.');
         }
 
-        return $next($request);
+        foreach ($roles as $role){
+            if ($staff->role === $role){
+                return $next($request);
+            }
+        }
+
+        abort(403, 'Je hebt geen toegang tot deze pagina. Alleen toegankelijk voor: ' . implode(', ', $roles));
     }
 }

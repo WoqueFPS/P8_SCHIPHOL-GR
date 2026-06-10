@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FlightController extends Controller
 {
@@ -34,13 +35,15 @@ class FlightController extends Controller
 
     public function manage()
     {
-        // extra security
-        if (!auth()->user() || !in_array(auth()->user()->role, ['coordinator', 'admin'])) {
-            abort(403, 'Alleen toegankelijk voor vluchtcoordinatoren.');
+        // check for staff guard with role
+        $staff = Auth::guard('staff')->user();
+        
+        if (!$staff || !in_array($staff->role, ['coordinator', 'directeur'])) {
+            abort(403, 'Alleen toegankelijk voor vluchtcoordinatoren en directie.');
         }
 
         $flights = \App\Models\Flight::all();
 
-        return view('flights.manage', compact('flights'));
+        return view('staff.flights.manage', compact('flights'));
     }
 }

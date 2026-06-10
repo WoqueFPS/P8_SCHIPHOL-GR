@@ -5,8 +5,9 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Staff\ReportController;
 use App\Http\Controllers\Staff\AuthController as StaffAuthController;
+use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\TermsController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,12 +67,13 @@ Route::prefix('staff')->name('staff.')->group(function () {
     // uitloggen
     Route::post('/logout', [StaffAuthController::class, 'logout'])
         ->name('logout')
-        ->middleware('auth.staff');
+        ->middleware('auth:staff');
 
     // alle ingelogde medewerkers
-    Route::middleware('auth.staff')->group(function () {
+    Route::middleware('auth:staff')->group(function () {
 
-        Route::get('/dashboard', fn() => view('staff.dashboard'))->name('dashboard');
+        // Use the aliased StaffDashboardController
+        Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
 
         // vluchtcoordinatoren + directeur
         Route::middleware('role:coordinator,directeur')->group(function () {

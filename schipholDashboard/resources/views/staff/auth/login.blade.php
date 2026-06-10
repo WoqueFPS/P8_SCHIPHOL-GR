@@ -8,204 +8,127 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Expires" content="0">
-    @vite(['resources/css/app.css', 'resources/js/app.js']) 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @vite(['resources/js/staff-login.js'])
 </head>
 <body>
 
-    {{-- achtergrond elementen --}}
-    <div class="runway-bg" aria-hidden="true">
-        <div class="runway-grid"></div>
-        <div class="runway-line runway-line--1"></div>
-        <div class="runway-line runway-line--2"></div>
-        <div class="runway-line runway-line--3"></div>
-        <canvas id="radar-canvas"></canvas>
-    </div>
+<div class="login-admin-page">
+    <div class="login-admin-wrap">
 
-    {{-- statusbalk bovenin --}}
-    <header class="status-bar">
-        <div class="status-bar__left">
-            <span class="status-dot" aria-hidden="true"></span>
-            <span>AMS EHAM OPERATIONEEL</span>
-        </div>
-        <div class="status-bar__center">
-            <span id="clock">--:--:-- UTC</span>
-            <span class="status-bar__sep" aria-hidden="true">//</span>
-            <span id="dateline">-- --- ----</span>
-        </div>
-        <div class="status-bar__right">
-            <span>WIND 230° / 14kt</span>
-            <span class="status-bar__sep" aria-hidden="true">//</span>
-            <span>VIS &gt;10KM</span>
-        </div>
-    </header>
+        {{-- runway panel --}}
+        <aside class="login-admin-runway-panel" aria-hidden="true">
+            <div class="login-admin-runway-lights" id="login-admin-runwayLights"></div>
 
-    <main class="login-wrapper">
-
-        {{-- Loginkaart --}}
-        <div class="login-card">
-
-            {{-- !!!hier komt logo!!! --}}
-            <div class="login-card__header">
-                <div class="schiphol-logo">
-
-                </div>
-                <div>
-                    <span class="brand-name">SCHIPHOL</span>
-                    <span class="brand-sub">OPERATIONS DASHBOARD</span>
-                </div>
+            <div class="login-admin-panel-logo">
+                <div class="login-admin-panel-logo-mark">AMS</div>
+                <div class="login-admin-panel-logo-sub">Amsterdam Airport</div>
             </div>
 
-            <div class="login-card__divider">
-                <span class="divider-tag">SEC-AUTH // MEDEWERKERS TOEGANG</span>
-            </div>
+            <nav class="login-admin-panel-nav">
+                @foreach(['Dashboard', 'Vluchten', 'Gates', 'Personeel', 'Beveiliging'] as $item)
+                    <div class="login-admin-nav-item login-admin-nav-item--locked">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                        {{ $item }}
+                    </div>
+                @endforeach
+            </nav>
 
-            {{-- foutmeldingen --}}
+            <div class="login-admin-panel-status">
+                <div class="login-admin-status-chip">
+                    <div class="login-admin-status-dot"></div>
+                    Systeem actief
+                </div>
+            </div>
+        </aside>
+
+        {{-- form panel --}}
+        <main class="login-admin-form-panel">
+            <p class="login-admin-form-eyebrow">Toegangsbeheer</p>
+            <h1 class="login-admin-form-title">Beheerder login</h1>
+            <p class="login-admin-form-sub">Beveiligde toegang — alleen bevoegd personeel</p>
+
+            {{-- Validation errors --}}
             @if ($errors->any())
-                <div class="alert alert--error" role="alert">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                    </svg>
+                <div class="login-admin-alert-error" role="alert">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                     {{ $errors->first() }}
                 </div>
             @endif
 
-            @if (session('error'))
-                <div class="alert alert--error" role="alert">{{ session('error') }}</div>
-            @endif
-
-            {{-- formulier --}}
-            <form method="POST" action="{{ route('staff.login') }}" novalidate>
+            <form method="POST" action="{{ route('staff.login') }}" novalidate id="login-admin-form">
                 @csrf
-                <div class="form-group">
-                    <label class="form-label" for="email">
-                        <span class="label-tag">01</span>
-                        Medewerkers e-mailadres
-                    </label>
-                    <div class="form-input-wrap">
+
+                <div class="login-admin-field-group">
+                    <label class="login-admin-field-label" for="login-admin-email">E-mailadres</label>
+                    <div class="login-admin-field-wrap">
+                        <span class="login-admin-field-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                        </span>
                         <input
-                            class="form-input @error('email') form-input--error @enderror"
+                            class="login-admin-field-input"
                             type="email"
-                            id="email"
+                            id="login-admin-email"
                             name="email"
                             value="{{ old('email') }}"
-                            autocomplete="email"
-                            autofocus
+                            placeholder="bruce.wayne @schiphol.nl"
+                            autocomplete="username"
                             required
-                            placeholder="naam@schiphol.nl">
-                        <span class="input-icon" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="3" y="5" width="18" height="14" rx="2"/>
-                                <polyline points="3 7 12 13 21 7"/>
-                            </svg>
-                        </span>
+                            autofocus
+                        />
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="password">
-                        <span class="label-tag">02</span>
-                        Wachtwoord
-                    </label>
-                    <div class="form-input-wrap">
+                <div class="login-admin-field-group">
+                    <label class="login-admin-field-label" for="login-admin-password">Wachtwoord</label>
+                    <div class="login-admin-field-wrap">
+                        <span class="login-admin-field-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                        </span>
                         <input
-                            class="form-input @error('password') form-input--error @enderror"
+                            class="login-admin-field-input login-admin-field-input--padded-right"
                             type="password"
-                            id="password"
+                            id="login-admin-password"
                             name="password"
+                            placeholder="••••••••••"
                             autocomplete="current-password"
                             required
-                            placeholder="••••••••••••">
-                        <button type="button" class="input-icon input-icon--btn" id="togglePw" aria-label="Wachtwoord tonen">
-                            <svg id="eyeOpen" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-                            </svg>
-                            <svg id="eyeClosed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none">
-                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
-                                <line x1="1" y1="1" x2="23" y2="23"/>
-                            </svg>
+                        />
+                        <button type="button" class="login-admin-field-suffix" id="login-admin-togglePass" aria-label="Toon wachtwoord">
+                            <svg id="login-admin-eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         </button>
                     </div>
                 </div>
 
-                <div class="form-options">
-                    <label class="form-checkbox">
-                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                        <span class="checkbox-box" aria-hidden="true"></span>
-                        <span>Sessie onthouden</span>
+                <div class="login-admin-form-meta">
+                    <label class="login-admin-form-check">
+                        <input type="checkbox" name="remember" id="login-admin-remember" {{ old('remember') ? 'checked' : '' }} />
+                        <span>Onthoud dit apparaat</span>
                     </label>
+                    <a href="#" class="login-admin-form-link">Wachtwoord vergeten?</a>
                 </div>
-                <button type="submit" class="btn-login" id="submitBtn">
-                    <span class="btn-login__text">Toegang verkrijgen</span>
-                    <span class="btn-login__arrow" aria-hidden="true">→</span>
-                    <span class="btn-login__loader" aria-hidden="true"></span>
+
+                <button type="submit" class="login-admin-btn-login" id="login-admin-loginBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15z" transform="rotate(90 12 12)"/></svg>
+                    Inloggen
                 </button>
             </form>
 
-            {{-- <textarea name="" id="" cols="30" rows="10"></textarea>erug naar reizigers login --}}
-            <div class="login-card__switch">
-                Reiziger?
-                <a href="{{ route('login') }}">Ga naar de reizigers login</a>
-            </div>
-            <div class="login-card__footer">
-                <span>© {{ date('Y') }} Royal Schiphol Group</span>
-                <span class="footer-sep" aria-hidden="true">·</span>
-                <a href="#" class="footer-link">Privacybeleid</a>
-                <span class="footer-sep" aria-hidden="true">·</span>
-                <a href="#" class="footer-link">Ondersteuning</a>
-            </div>
-        </div>
+            <footer class="login-admin-form-footer">
+                <div class="login-admin-footer-badge">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    TLS 1.3 versleuteld
+                </div>
+                <div class="login-admin-footer-badge">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg>
+                    2FA vereist
+                </div>
+                <div class="login-admin-gate-code">GATE·C·12</div>
+            </footer>
+        </main>
 
-        {{-- statuspaneel --}}
-        <aside class="login-aside" aria-label="Systeem status">
-            <div class="aside-block">
-                <div class="aside-block__label">SYSTEEM STATUS</div>
-                <div class="aside-metric">
-                    <div class="metric-dot metric-dot--green" aria-hidden="true"></div>
-                    <span>OPS Dashboard</span>
-                    <span class="metric-val metric-val--ok">ONLINE</span>
-                </div>
-                <div class="aside-metric">
-                    <div class="metric-dot metric-dot--green" aria-hidden="true"></div>
-                    <span>Vluchtdata API</span>
-                    <span class="metric-val metric-val--ok">SYNC</span>
-                </div>
-                <div class="aside-metric">
-                    <div class="metric-dot metric-dot--amber" aria-hidden="true"></div>
-                    <span>Gate Systeem</span>
-                    <span class="metric-val metric-val--warn">ONDERHOUD</span>
-                </div>
-                <div class="aside-metric">
-                    <div class="metric-dot metric-dot--green" aria-hidden="true"></div>
-                    <span>Security Module</span>
-                    <span class="metric-val metric-val--ok">ACTIEF</span>
-                </div>
-            </div>
+    </div>
+</div>
 
-            <div class="aside-block">
-                <div class="aside-block__label">TOEGANGSNIVEAUS</div>
-                <div class="aside-role aside-role--coordinator">
-                    <span class="role-badge">COORD</span>
-                    <div>
-                        <div class="role-name">Vluchtcoordinator</div>
-                        <div class="role-desc">Vluchtbeheer, gates, planning</div>
-                    </div>
-                </div>
-                <div class="aside-role aside-role--directeur">
-                    <span class="role-badge role-badge--gold" style="background-color:#4a9e65;">DIR</span>
-                    <div>
-                        <div class="role-name">Directeur</div>
-                        <div class="role-desc">Rapportages, analytics, alles</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="aside-block aside-block--notice">
-                <div class="aside-block__label">OPERATIONELE MEDEDELING</div>
-                <p class="aside-notice">Runway 36L gesloten 06:00–08:00 LT. Gebruik 36C voor zwaar verkeer.</p>
-            </div>
-        </aside>
-
-    </main>
 </body>
 </html>

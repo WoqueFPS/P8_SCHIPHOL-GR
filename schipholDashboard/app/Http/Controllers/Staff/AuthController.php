@@ -52,8 +52,8 @@ class AuthController extends Controller
         $role = Auth::guard('staff')->user()->role;
 
         return match ($role) {
-            'directeur'   => redirect()->route('reports.index'),
-            'coordinator' => redirect()->route('flights.manage'),
+            'directeur'   => redirect()->route('staff.reports.index'),
+            'coordinator' => redirect()->route('staff.flights.manage'),
             default       => redirect()->route('staff.dashboard'),
         };
     }
