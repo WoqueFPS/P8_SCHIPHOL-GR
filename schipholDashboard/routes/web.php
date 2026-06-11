@@ -83,6 +83,13 @@ Route::prefix('staff')->name('staff.')->group(function () {
         // directeur
         Route::middleware('role:directeur')->group(function () {
             Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+            Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
+            Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+            
+            // routes voor wijzigen en verwijderen
+            Route::get('/reports/{id}/edit', [ReportController::class, 'edit'])->name('reports.edit');
+            Route::put('/reports/{id}', [ReportController::class, 'update'])->name('reports.update');
+            Route::delete('/reports/{id}', [ReportController::class, 'destroy'])->name('reports.destroy');
         });
     });
 });

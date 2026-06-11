@@ -5,23 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schiphol Directeur Dashboard</title>
 </head>
-
 <body>
     <h1>Schiphol Directeur Dashboard</h1>
     <hr>
     <h2>Dashboard Overzicht</h2>
-    <p>Totaal Vluchtcoördinatoren: 12</p>
-    <p>Actieve Vluchten: 48</p>
-    <p>Open Meldingen: 3</p>
+    <p>Totaal Vluchtcoördinatoren: {{ $totaalCoordinatoren }}</p>
+    <p>Actieve Vluchten: {{ $actieveVluchten }}</p>
+    <p>Open Meldingen: {{ $openMeldingen }}</p>
     <hr>
+    
     <h2>Vluchtcoördinatoren</h2>
-    <a href="/coordinatoren/create">
+    <a href="{{ route('staff.reports.create') }}">
         <button>Nieuwe Coördinator Toevoegen</button>
     </a>
     <br><br>
 
     <table border="1" cellpadding="10">
-
         <thead>
             <tr>
                 <th>ID</th>
@@ -31,63 +30,34 @@
                 <th>Acties</th>
             </tr>
         </thead>
-
         <tbody>
+            @foreach($coordinatoren as $coordinator)
             <tr>
-                <td>1</td>
-                <td>Yu Narukami</td>
-                <td>Internationaal</td>
+                <td>{{ $coordinator->id }}</td>
+                <td>{{ $coordinator->name }}</td>
+                <td>{{ $coordinator->department }}</td>
                 <td>Actief</td>
                 <td>
-                    <a href="/coordinatoren/1/edit">
+                    <a href="{{ route('staff.reports.edit', $coordinator->id) }}">
                         <button>Wijzigen</button>
                     </a>
 
-                    <form action="/coordinatoren/1" method="POST">
+                    <form action="{{ route('staff.reports.destroy', $coordinator->id) }}" method="POST" style="display:inline;">
                         @csrf
-
                         @method('DELETE')
-
-                        <button type="submit">
+                        <button type="submit" onclick="return confirm('Weet je het zeker?')">
                             Verwijderen
                         </button>
-
                     </form>
                 </td>
             </tr>
-
-            <tr>
-                <td>2</td>
-                <td>Kiryu Kazuma</td>
-                <td>Nationaal</td>
-                <td>Actief</td>
-                <td>
-
-                    <a href="/coordinatoren/2/edit">
-                        <button>Wijzigen</button>
-                    </a>
-
-                    <form action="/coordinatoren/2" method="POST">
-
-                        @csrf
-                        @method('DELETE')
-
-                        <button type="submit">
-                            Verwijderen
-                        </button>
-
-                    </form>
-                </td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
 
     <form action="{{ route('staff.logout') }}" method="POST" style="display:inline;">
-    @csrf
-    <button type="submit">
-        Uitloggen
-    </button>
+        @csrf
+        <button type="submit">Uitloggen</button>
     </form>
-
 </body>
 </html>

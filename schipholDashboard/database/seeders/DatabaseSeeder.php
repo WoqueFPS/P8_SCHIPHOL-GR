@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         FlightSeeder::class,
         GateSeeder::class,
         RoleSeeder::class,
+        StaffTestSeeder::class,
         ]);
 
         User::updateOrCreate([       

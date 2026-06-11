@@ -15,6 +15,8 @@ class Staff extends Authenticatable
         'password',
         'role', //coordinator directeur
         'employee_id',
+        'department',
+        'status',
     ];
 
     protected $hidden = [
