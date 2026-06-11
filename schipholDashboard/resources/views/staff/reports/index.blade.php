@@ -82,5 +82,12 @@
         </tbody>
     </table>
 
+    <form action="{{ route('staff.logout') }}" method="POST" style="display:inline;">
+    @csrf
+    <button type="submit">
+        Uitloggen
+    </button>
+    </form>
+
 </body>
 </html>

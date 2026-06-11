@@ -10,7 +10,11 @@ class DashboardController extends Controller
     public function index()
     {
         $staff = Auth::guard('staff')->user();
-        
-        return view('staff.dashboard', compact('staff'));
+
+        return match ($staff->role) {
+            'directeur' => redirect()->route('staff.reports.index'),
+            'vluchtcoordinator' => redirect()->route('staff.flights.index'),
+            default => view('staff.dashboard', compact('staff')),
+        };
     }
 }

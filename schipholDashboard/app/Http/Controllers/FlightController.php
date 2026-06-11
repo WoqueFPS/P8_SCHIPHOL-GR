@@ -10,7 +10,7 @@ class FlightController extends Controller
     public function index()
     {
         $flights = \App\Models\Flight::all();
-        return view('flights.index', compact('flights'));
+        return view('staff.flights.index', compact('flights'));
     }
 
     public function show($flight)
