@@ -104,7 +104,7 @@
 
             {{-- Boeking maken button met check of ingelogd --}}
             @auth
-                <a href="{{ route('dashboard') }}" class="homepage-hero-card homepage-hero-card--dark">
+                <a href="{{ route('flights.index') }}" class="homepage-hero-card homepage-hero-card--dark">
                     <span class="homepage-hero-card__icon">BK</span>
                     <strong class="homepage-hero-card__title">Boeking maken</strong>
                     <span class="homepage-hero-card__sub">Ga naar dashboard om te boeken</span>

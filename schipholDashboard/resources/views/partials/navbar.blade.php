@@ -16,7 +16,7 @@
       <li><a href="{{ route('home') }}" class="site-nav__link {{ request()->routeIs('home') ? 'site-nav__link--active' : '' }}">Home</a></li>
       <li><a href="{{ route('flights.index') }}" class="site-nav__link {{ request()->routeIs('flights.*') ? 'site-nav__link--active' : '' }}">Vluchten</a></li>
       @auth
-        <li><a href="{{ route('dashboard') }}" class="site-nav__link {{ request()->routeIs('dashboard') ? 'site-nav__link--active' : '' }}">Mijn boekingen</a></li>
+        <li><a href="{{ route('bookings.index') }}" class="site-nav__link {{ request()->routeIs('bookings.*') ? 'site-nav__link--active' : '' }}">Mijn boekingen</a></li>
       @endauth
     </ul>
 
@@ -52,7 +52,7 @@
       Vluchten bekijken
     </a>
     @auth
-      <a href="{{ route('dashboard') }}" class="site-nav__mobile-link {{ request()->routeIs('dashboard') ? 'site-nav__mobile-link--active' : '' }}">
+      <a href="{{ route('bookings.index') }}" class="site-nav__mobile-link {{ request()->routeIs('bookings.*') ? 'site-nav__mobile-link--active' : '' }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         Mijn boekingen
       </a>
