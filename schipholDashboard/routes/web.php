@@ -54,8 +54,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
 
-    Route::post('/wishlist/{flight}',   [FlightController::class, 'addToWishlist'])->name('wishlist.add');
-    Route::delete('/wishlist/{flight}', [FlightController::class, 'removeFromWishlist'])->name('wishlist.remove');
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/{flight}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::delete('/wishlist/{flight}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 });
 
 // MEDEWERKERS staff guard   /staff/

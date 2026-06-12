@@ -50,4 +50,9 @@ class User extends Authenticatable
             'terms_accepted_at' => 'datetime',
         ];
     }
+
+    public function wishlistFlights()
+    {
+        return $this->belongsToMany(\App\Models\Flight::class, 'wishlists');
+    }
 }
