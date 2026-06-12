@@ -50,4 +50,10 @@ class BookingController extends Controller
     {
         return "Booking geannuleerd";
     }
+
+    public function index()
+    {
+        $bookings = Booking::all();
+        return view('bookings.index', compact('bookings'));
+    }
 }

@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings/{booking}',  [BookingController::class, 'show'])->name('bookings.show');
     Route::delete('/bookings/{booking}',[BookingController::class, 'cancel'])->name('bookings.cancel');
 
+    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+
     Route::post('/wishlist/{flight}',   [FlightController::class, 'addToWishlist'])->name('wishlist.add');
     Route::delete('/wishlist/{flight}', [FlightController::class, 'removeFromWishlist'])->name('wishlist.remove');
 });

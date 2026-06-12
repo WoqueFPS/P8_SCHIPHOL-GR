@@ -14,4 +14,14 @@ class Booking extends Model
         'email',
         'phone'
     ];
+
+    public function traveler()
+    {
+        return $this->belongsTo(\App\Models\Traveler::class);
+    }
+
+    public function flight()
+    {
+        return $this->belongsTo(\App\Models\Flight::class);
+    }
 }

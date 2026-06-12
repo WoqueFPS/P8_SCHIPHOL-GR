@@ -11,11 +11,12 @@ public function up(): void
             $table->id();
 
             $table->string('booking_number')->unique();
+
+            $table->foreignId('flight_id')->nullable()->constrained('flights');
+
             $table->string('first_name');
             $table->string('last_name');
-
             $table->string('address');
-
             $table->string('email');
             $table->string('phone');
 
