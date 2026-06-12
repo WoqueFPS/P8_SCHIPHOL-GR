@@ -40,7 +40,7 @@ class BookingController extends Controller
 
     public function confirmation($bookingNumber)
     {
-        return view('booking.confirmation', [
+        return view('bookings.confirmation', [
             'bookingNumber' => $bookingNumber
         ]);
     }
