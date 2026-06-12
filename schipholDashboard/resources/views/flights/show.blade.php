@@ -14,8 +14,16 @@
 
     <input type="text" name="first_name" placeholder="Voornaam" required>
     <input type="text" name="last_name" placeholder="Achternaam" required>
+
+    <input type="text" name="address" placeholder="Adres" required>
+
     <input type="email" name="email" placeholder="E-mail" required>
     <input type="text" name="phone" placeholder="Telefoonnummer" required>
+
+    <label>
+        <input type="checkbox" name="confirm" value="1" required>
+        Ik ga akkoord met de kosten
+    </label>
 
     <button type="submit">
         Vlucht boeken

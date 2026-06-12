@@ -2,38 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Booking; // <-- Vergeet deze niet te importeren!
+use App\Models\Booking;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str; // <-- Belangrijk voor het unieke nummer!
+use Illuminate\Support\Str;
 
 class BookingController extends Controller
 {
-    public function store(Request $request) // <-- Voeg (Request $request) toe
+    public function store(Request $request)
     {
-        // 1. Validatie van de gegevens
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required'
+            'last_name'  => 'required|string|max:255',
+            'address'    => 'required|string|max:255',
+            'email'      => 'required|email|max:255',
+            'phone'      => 'required|string|max:20',
+            'confirm'    => 'accepted'
         ]);
 
-        // 2. Opslaan in de database met een unieke UUID
         $booking = Booking::create([
             'booking_number' => Str::uuid(),
+
             'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'],
+            'last_name'  => $validated['last_name'],
+            'address'    => $validated['address'],
+            'email'      => $validated['email'],
+            'phone'      => $validated['phone'],
         ]);
 
-        // 3. Doorsturen naar de bevestigingspagina
         return redirect()->route('bookings.confirmation', [
             'bookingNumber' => $booking->booking_number
         ]);
     }
 
-    // Dit is de nieuwe methode voor de bevestigingspagina
     public function confirmation($bookingNumber)
     {
         return view('booking.confirmation', [

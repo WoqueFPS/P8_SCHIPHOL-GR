@@ -10,6 +10,7 @@ class Booking extends Model
         'booking_number',
         'first_name',
         'last_name',
+        'address',
         'email',
         'phone'
     ];
