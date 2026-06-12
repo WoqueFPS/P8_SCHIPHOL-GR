@@ -295,3 +295,312 @@ if (verifySections.length > 0 && verifyItems.length > 0){
         });
     },{passive: true });
 }
+
+// !DIRECTEUR DASHBOARD / REPORTS!
+//toast msg (announcement)
+function reportsDshShowToast(message, isError = false) {
+    let toast = document.querySelector('.reports-dsh-toast-message');
+    if(toast) toast.remove();
+    const toastDiv = document.createElement('div');
+    toastDiv.className = 'reports-dsh-toast-message';
+    toastDiv.innerHTML = `DIRECTEUR: ${message}`;
+    if(isError) toastDiv.style.background = '#9b2c1d';
+    else toastDiv.style.background = '#014e2f';
+    toastDiv.style.position = 'fixed';
+    toastDiv.style.bottom = '24px';
+    toastDiv.style.right = '24px';
+    toastDiv.style.color = 'white';
+    toastDiv.style.padding = '10px 18px';
+    toastDiv.style.borderRadius = '10px';
+    toastDiv.style.fontSize = '13px';
+    toastDiv.style.fontWeight = '500';
+    toastDiv.style.fontFamily = "'Poppins', sans-serif";
+    toastDiv.style.zIndex = '9999';
+    toastDiv.style.opacity = '0';
+    toastDiv.style.transform = 'translateY(8px)';
+    toastDiv.style.transition = 'opacity .3s, transform .3s';
+    document.body.appendChild(toastDiv);
+    
+    setTimeout(() =>{
+        toastDiv.style.opacity = '1';
+        toastDiv.style.transform = 'translateY(0)';
+    }, 10);
+    
+    setTimeout(() =>{ 
+        toastDiv.style.opacity = '0';
+        toastDiv.style.transform = 'translateY(8px)';
+        setTimeout(() => toastDiv.remove(), 300);
+    }, 3200);
+}
+
+//Initialize event listeners when dom loads
+document.addEventListener('DOMContentLoaded', function(){
+    
+    //nood modus
+    const noodToggle = document.getElementById('reports-dsh-noodModusToggle');
+    if(noodToggle) {
+        noodToggle.addEventListener('change', function(e) {
+            fetch('/staff/director/toggle-noodmodus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data =>{
+                if(data.success){
+                    reportsDshShowToast(data.message);
+                    const statusText = document.getElementById('reports-dsh-noodStatusText');
+                    if(data.noodmodus) {
+                        statusText.innerHTML = 'NOODMODUS ACTIEF - alle niet-essentiële vluchten opgeschort';
+                        statusText.style.color = '#b91c1c';
+                    }else{
+                        statusText.innerHTML = 'Normale exploitatie - standaard procedures hervat';
+                        statusText.style.color = '#1e6f3f';
+                    }
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+    
+    //protocol
+    const activateProtocolBtn = document.getElementById('reports-dsh-activateProtocolBtn');
+    if(activateProtocolBtn){
+        activateProtocolBtn.addEventListener('click', function() {
+            if(noodToggle && !noodToggle.checked) {
+                noodToggle.checked = true;
+                noodToggle.dispatchEvent(new Event('change'));
+            } else {
+                reportsDshShowToast('Noodmodus is al actief', true);
+            }
+        });
+    }
+    
+    //priority
+    function reportsDshSetPriority(priority){
+        fetch('/staff/director/set-priority', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({priority: priority})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                reportsDshShowToast(data.message);
+                const activeLabel = document.getElementById('reports-dsh-activePriorityLabel');
+                if(activeLabel) {
+                    activeLabel.innerText = 
+                        priority === 'intercontinentaal' ? 'Intercontinentaal' :
+                        priority === 'europees' ? 'Europees' : 'Cargo / Vracht';}
+                document.querySelectorAll('.reports-dsh-priority-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if(btn.getAttribute('data-priority') === priority) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
+    //attach priority events
+    const priorityBtns = document.querySelectorAll('.reports-dsh-priority-btn');
+    priorityBtns.forEach(btn => {
+        btn.addEventListener('click', function(){
+            const priority =this.getAttribute('data-priority');
+            if(priority) reportsDshSetPriority(priority);
+        });
+    });
+    
+    //broadcasted msg
+    const broadcastBtn = document.getElementById('reports-dsh-broadcastMsgBtn');
+    if(broadcastBtn) {
+        broadcastBtn.addEventListener('click', function() {
+            const messageInput = document.getElementById('reports-dsh-directorMessage');
+            const message = messageInput ? messageInput.value.trim() : '';
+            if(!message) {
+                reportsDshShowToast('U moet een bericht invullen voordat u uitzendt.', true);
+                return;
+            }
+            
+            fetch('/staff/director/broadcast', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    reportsDshShowToast(data.message);
+                    const broadcastHistory = document.getElementById('reports-dsh-broadcastHistory');
+                    if(broadcastHistory) {
+                        broadcastHistory.innerText = `"${message.substring(0, 65)}" (uitgezonden om ${new Date().toLocaleTimeString()})`;
+                    } if(messageInput) messageInput.value = '';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+    
+    //reset msg
+    const resetMessageBtn = document.getElementById('reports-dsh-resetMessageBtn');
+    if(resetMessageBtn){
+        resetMessageBtn.addEventListener('click',function() {
+            const messageInput = document.getElementById('reports-dsh-directorMessage');
+            if(messageInput) messageInput.value = '';
+            reportsDshShowToast('Berichtenveld gewist.');
+        });
+    }
+    
+    const teamButtons = document.querySelectorAll('[data-team]');
+    teamButtons.forEach(btn =>{
+        btn.addEventListener('click', function() {
+            const team = this.getAttribute('data-team');
+            fetch('/staff/director/update-team', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ 
+                    team: team, 
+                    action: 'increase' 
+                })
+            })
+            .then(response => response.json())
+            .then(data =>{
+                if(data.success){
+                    reportsDshShowToast(data.message);
+                    const teamSpan =document.getElementById(`reports-dsh-team${team.charAt(0).toUpperCase() + team.slice(1)}Status`);
+                    if(teamSpan) teamSpan.innerText = `${data.count} coördinatoren`;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+    
+    // reset
+    const resetTeamsBtn = document.getElementById('reports-dsh-resetTeamsBtn');
+    if(resetTeamsBtn){
+        resetTeamsBtn.addEventListener('click', function (){
+            fetch('/staff/director/reset-teams', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success){
+                    reportsDshShowToast(data.message);
+                    const teamOost = document.getElementById('reports-dsh-teamOostStatus');
+                    const teamWest = document.getElementById('reports-dsh-teamWestStatus');
+                    const teamCargo = document.getElementById('reports-dsh-teamCargoStatus');
+                    if(teamOost) teamOost.innerText = '4 coördinatoren';
+                    if(teamWest) teamWest.innerText = '3 coördinatoren';
+                    if(teamCargo) teamCargo.innerText = '2 coördinatoren';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+    
+    const resetCoordTasks =document.getElementById('reports-dsh-resetCoordTasks');
+    if(resetCoordTasks){
+        resetCoordTasks.addEventListener('click', function() {
+            reportsDshShowToast('Alle coördinatierondes herstart. Nieuwe taakverdeling actief.');
+        });
+    }
+    
+    //exporteer operationeel log
+    const exportSnapshotBtn = document.getElementById('reports-dsh-exportDirectorSnapshot');
+    if(exportSnapshotBtn) {
+        exportSnapshotBtn.addEventListener('click', function(){
+            const statValues = document.querySelectorAll('.reports-dsh-stat-value');
+            const snapshot ={
+                timestamp: new Date().toISOString(),
+                totaalCoordinatoren: statValues[0]?.innerText || '0',
+                actieveVluchten: statValues[1]?.innerText || '0',
+                openMeldingen: statValues[2]?.innerText || '0'
+            };
+            const dataStr= JSON.stringify(snapshot, null, 2);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href =url;
+            a.download = `schiphol_directie_export_${Date.now()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            reportsDshShowToast('Operationeel log geëxporteerd (JSON).');
+        });
+    }
+    
+    //initial data from database
+    fetch('/staff/director/settings',{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        }
+    })
+    .then(response => response.json())
+    .then(data =>{
+        //noodmodus toggle
+        if(noodToggle && data.noodmodus) {
+            noodToggle.checked = data.noodmodus;
+            const statusText = document.getElementById('reports-dsh-noodStatusText');
+            if(statusText && data.noodmodus) {
+                statusText.innerHTML = 'NOODMODUS ACTIEF - alle niet-essentiele vluchten opgeschort';
+                statusText.style.color = '#b91c1c';
+            }
+        }
+        
+        //priority
+        if(data.prioriteit) {
+            const activeLabel = document.getElementById('reports-dsh-activePriorityLabel');
+            if(activeLabel) {
+                activeLabel.innerText = 
+                    data.prioriteit === 'intercontinentaal' ? 'Intercontinentaal' :
+                    data.prioriteit === 'europees' ? 'Europees' : 'Cargo / Vracht';
+            }
+            document.querySelectorAll('.reports-dsh-priority-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('data-priority') === data.prioriteit) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        //team allocations
+        if(data.teamAllocations){
+            const teamOost = document.getElementById('reports-dsh-teamOostStatus');
+            const teamWest = document.getElementById('reports-dsh-teamWestStatus');
+            const teamCargo = document.getElementById('reports-dsh-teamCargoStatus');
+            if(teamOost && data.teamAllocations.oost) teamOost.innerText = `${data.teamAllocations.oost} coördinatoren`;
+            if(teamWest && data.teamAllocations.west) teamWest.innerText = `${data.teamAllocations.west} coördinatoren`;
+            if(teamCargo && data.teamAllocations.cargo) teamCargo.innerText = `${data.teamAllocations.cargo} coördinatoren`;
+        }
+        
+        //active broadcast
+        if(data.activeBroadcast && data.activeBroadcast.message) {
+            const broadcastHistory = document.getElementById('reports-dsh-broadcastHistory');
+            if(broadcastHistory) {
+                broadcastHistory.innerText = `"${data.activeBroadcast.message.substring(0, 65)}" (${new Date(data.activeBroadcast.created_at).toLocaleString()})`;
+            }
+        }
+    })
+    .catch(error => console.error('Error loading settings:', error));
+});

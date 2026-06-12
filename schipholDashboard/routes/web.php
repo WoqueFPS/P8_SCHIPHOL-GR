@@ -48,11 +48,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/bookings/confirmation/{bookingNumber}', [BookingController::class, 'confirmation'])->name('bookings.confirmation');
-    Route::post('/bookings',           [BookingController::class, 'store'])->name('bookings.store');
-
-    Route::get('/bookings/{booking}',  [BookingController::class, 'show'])->name('bookings.show');
-    Route::delete('/bookings/{booking}',[BookingController::class, 'cancel'])->name('bookings.cancel');
-
+    Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+    Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::delete('/bookings/{booking}', [BookingController::class, 'cancel'])->name('bookings.cancel');
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
 
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
@@ -77,7 +75,6 @@ Route::prefix('staff')->name('staff.')->group(function () {
     // alle ingelogde medewerkers
     Route::middleware('auth:staff')->group(function () {
 
-        // Use the aliased StaffDashboardController
         Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
 
         // vluchtcoordinatoren + directeur
@@ -87,15 +84,22 @@ Route::prefix('staff')->name('staff.')->group(function () {
 
         // directeur
         Route::middleware('role:directeur')->group(function () {
+            // original report
             Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
             Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
             Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
-            
-            // routes voor wijzigen en verwijderen
             Route::get('/reports/{id}/edit', [ReportController::class, 'edit'])->name('reports.edit');
             Route::put('/reports/{id}', [ReportController::class, 'update'])->name('reports.update');
             Route::delete('/reports/{id}', [ReportController::class, 'destroy'])->name('reports.destroy');
-            Route::get('reports/{id}', [ReportController::class, 'show'])->name('reports.show');
+            Route::get('/reports/{id}', [ReportController::class, 'show'])->name('reports.show');
+            
+            // api routes database
+            Route::post('/director/toggle-noodmodus', [ReportController::class, 'toggleNoodmodus'])->name('director.toggle-noodmodus');
+            Route::post('/director/set-priority', [ReportController::class, 'setPriority'])->name('director.set-priority');
+            Route::post('/director/broadcast', [ReportController::class, 'broadcastMessage'])->name('director.broadcast');
+            Route::post('/director/update-team', [ReportController::class, 'updateTeam'])->name('director.update-team');
+            Route::post('/director/reset-teams', [ReportController::class, 'resetTeams'])->name('director.reset-teams');
+            Route::get('/director/settings', [ReportController::class, 'getSettings'])->name('director.settings');
         });
     });
 });

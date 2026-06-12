@@ -14,32 +14,32 @@
 
 @include('partials.navbar')
 
-<div class="app-shell">
-    <main class="main" style="width:100%;">
+<div class="reports-create-app-shell">
+    <main class="reports-create-main" style="width:100%;">
 
-        <div class="topbar">
+        <div class="reports-create-topbar">
             <div>
                 <h2>Nieuwe coördinator toevoegen</h2>
                 <p>Vul de gegevens in om een vluchtcoördinator aan te maken.</p>
             </div>
-            <div class="topbar-actions">
+            <div class="reports-create-topbar-actions">
                 <a href="{{ route('staff.reports.index') }}">
-                    <button type="button" class="btn btn-ghost">&larr; Terug naar overzicht</button>
+                    <button type="button" class="reports-create-btn reports-create-btn-ghost">&larr; Terug naar overzicht</button>
                 </a>
             </div>
         </div>
 
-        <section class="panel">
-            <div class="panel-header">
+        <section class="reports-create-panel">
+            <div class="reports-create-panel-header">
                 <div>
                     <h3>Gegevens coördinator</h3>
                     <p>E-mail en wachtwoord worden automatisch gegenereerd.</p>
                 </div>
             </div>
 
-            <div class="panel-body">
+            <div class="reports-create-panel-body">
                 @if ($errors->any())
-                    <div style="background:#fdecec; border:1px solid #f5c2c0; color:#c0392b; border-radius:9px; padding:14px 16px; margin-bottom:18px; font-size:13px;">
+                    <div class="reports-create-error-container" style="background:#fdecec; border:1px solid #f5c2c0; color:#c0392b; border-radius:9px; padding:14px 16px; margin-bottom:18px; font-size:13px;">
                         <ul style="margin:0; padding-left:18px;">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -51,15 +51,15 @@
                 <form action="{{ route('staff.reports.store') }}" method="POST">
                     @csrf
 
-                    <div class="form-grid">
-                        <div class="field full">
-                            <label for="naam">Naam</label>
-                            <input type="text" id="naam" name="naam" value="{{ old('naam') }}" placeholder="bijv. Sanne de Vries" required>
+                    <div class="reports-create-form-grid">
+                        <div class="reports-create-field reports-create-field-full">
+                            <label for="reports-create-naam">Naam</label>
+                            <input type="text" id="reports-create-naam" name="naam" value="{{ old('naam') }}" placeholder="bijv. Sanne de Vries" required>
                         </div>
 
-                        <div class="field full">
-                            <label for="afdeling">Afdeling</label>
-                            <select id="afdeling" name="afdeling" required>
+                        <div class="reports-create-field reports-create-field-full">
+                            <label for="reports-create-afdeling">Afdeling</label>
+                            <select id="reports-create-afdeling" name="afdeling" required>
                                 <option value="">-- Kies een afdeling --</option>
                                 <option value="Nationaal" {{ old('afdeling') == 'Nationaal' ? 'selected' : '' }}>Nationaal</option>
                                 <option value="Internationaal" {{ old('afdeling') == 'Internationaal' ? 'selected' : '' }}>Internationaal</option>
@@ -67,10 +67,10 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer" style="justify-content:flex-start;">
-                        <button type="submit" class="btn btn-primary">Opslaan</button>
+                    <div class="reports-create-modal-footer" style="justify-content:flex-start;">
+                        <button type="submit" class="reports-create-btn reports-create-btn-primary">Opslaan</button>
                         <a href="{{ route('staff.reports.index') }}">
-                            <button type="button" class="btn btn-ghost">Annuleren</button>
+                            <button type="button" class="reports-create-btn reports-create-btn-ghost">Annuleren</button>
                         </a>
                     </div>
                 </form>
