@@ -12,9 +12,10 @@ class FlightController extends Controller
         return view('flights.index', compact('flights'));
     }
 
-    public function show($flight)
+    public function show($id)
     {
-        return "Show flight " . $flight;
+        $flight = \App\Models\Flight::findOrFail($id);
+        return view('flights.show', compact('flight'));
     }
 
     public function search()

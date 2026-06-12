@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::post('/bookings',           [BookingController::class, 'store'])->name('bookings.store');
+    Route::get('/bookings/confirmation/{bookingNumber}', [BookingController::class, 'confirmation'])->name('bookings.confirmation');
+
     Route::get('/bookings/{booking}',  [BookingController::class, 'show'])->name('bookings.show');
     Route::delete('/bookings/{booking}',[BookingController::class, 'cancel'])->name('bookings.cancel');
 
