@@ -47,12 +47,17 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::get('/bookings/confirmation/{bookingNumber}', [BookingController::class, 'confirmation'])->name('bookings.confirmation');
     Route::post('/bookings',           [BookingController::class, 'store'])->name('bookings.store');
+
     Route::get('/bookings/{booking}',  [BookingController::class, 'show'])->name('bookings.show');
     Route::delete('/bookings/{booking}',[BookingController::class, 'cancel'])->name('bookings.cancel');
 
-    Route::post('/wishlist/{flight}',   [FlightController::class, 'addToWishlist'])->name('wishlist.add');
-    Route::delete('/wishlist/{flight}', [FlightController::class, 'removeFromWishlist'])->name('wishlist.remove');
+    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/{flight}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::delete('/wishlist/{flight}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 });
 
 // MEDEWERKERS staff guard   /staff/
