@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingConfirmation;
 
 class BookingController extends Controller
 {
@@ -28,6 +30,8 @@ class BookingController extends Controller
             'email'      => $validated['email'],
             'phone'      => $validated['phone'],
         ]);
+
+        Mail::to($booking->email)->send(new BookingConfirmation($booking));
 
         return redirect()->route('bookings.confirmation', [
             'bookingNumber' => $booking->booking_number
