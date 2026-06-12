@@ -43,6 +43,13 @@ class ReportController extends Controller
         return view('staff.reports.create');
     }
 
+    public function show($id)
+    {
+        $this->checkDirecteur();
+        $coordinator = Staff::where('role', 'coordinator')->findOrFail($id);
+        return view('staff.reports.show', compact('coordinator'));
+    }
+
     public function store(Request $request)
     {
         $this->checkDirecteur();

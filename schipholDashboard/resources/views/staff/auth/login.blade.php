@@ -13,6 +13,9 @@
 </head>
 <body>
 
+{{-- NAVBAR --}}
+@include('partials.navbar')
+
 <div class="login-admin-page">
     <div class="login-admin-wrap">
 
@@ -129,6 +132,9 @@
 
     </div>
 </div>
+
+{{-- FOOTER --}}
+@include('partials.footer')
 
 </body>
 </html>

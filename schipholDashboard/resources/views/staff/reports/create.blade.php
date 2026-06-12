@@ -1,38 +1,85 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
-    <title>Nieuwe Coördinator Toevoegen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schiphol Dashboard</title>
+    <link rel="icon" href="{{ asset('images/logo/schiphol.png') }}" type="image/png">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-    <h1>Nieuwe Coördinator Toevoegen</h1>
-    <hr>
 
-    <form action="{{ route('staff.reports.store') }}" method="POST">
-        @csrf
+@include('partials.navbar')
 
-        @if ($errors->any())
-            <div style="color: red;">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+<div class="app-shell">
+    <main class="main" style="width:100%;">
+
+        <div class="topbar">
+            <div>
+                <h2>Nieuwe coördinator toevoegen</h2>
+                <p>Vul de gegevens in om een vluchtcoördinator aan te maken.</p>
             </div>
-        @endif
+            <div class="topbar-actions">
+                <a href="{{ route('staff.reports.index') }}">
+                    <button type="button" class="btn btn-ghost">&larr; Terug naar overzicht</button>
+                </a>
+            </div>
+        </div>
 
-        <label for="naam">Naam:</label><br>
-        <input type="text" id="naam" name="naam" value="{{ old('naam') }}" required><br><br>
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <h3>Gegevens coördinator</h3>
+                    <p>E-mail en wachtwoord worden automatisch gegenereerd.</p>
+                </div>
+            </div>
 
-        <label for="afdeling">Afdeling:</label><br>
-        <select id="afdeling" name="afdeling" required>
-            <option value="">-- Kies een afdeling --</option>
-            <option value="Nationaal" {{ old('afdeling') == 'Nationaal' ? 'selected' : '' }}>Nationaal</option>
-            <option value="Internationaal" {{ old('afdeling') == 'Internationaal' ? 'selected' : '' }}>Internationaal</option>
-        </select><br><br>
+            <div class="panel-body">
+                @if ($errors->any())
+                    <div style="background:#fdecec; border:1px solid #f5c2c0; color:#c0392b; border-radius:9px; padding:14px 16px; margin-bottom:18px; font-size:13px;">
+                        <ul style="margin:0; padding-left:18px;">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-        <button type="submit">Opslaan</button>
-        <a href="{{ route('staff.reports.index') }}">Annuleren</a>
-    </form>
+                <form action="{{ route('staff.reports.store') }}" method="POST">
+                    @csrf
+
+                    <div class="form-grid">
+                        <div class="field full">
+                            <label for="naam">Naam</label>
+                            <input type="text" id="naam" name="naam" value="{{ old('naam') }}" placeholder="bijv. Sanne de Vries" required>
+                        </div>
+
+                        <div class="field full">
+                            <label for="afdeling">Afdeling</label>
+                            <select id="afdeling" name="afdeling" required>
+                                <option value="">-- Kies een afdeling --</option>
+                                <option value="Nationaal" {{ old('afdeling') == 'Nationaal' ? 'selected' : '' }}>Nationaal</option>
+                                <option value="Internationaal" {{ old('afdeling') == 'Internationaal' ? 'selected' : '' }}>Internationaal</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" style="justify-content:flex-start;">
+                        <button type="submit" class="btn btn-primary">Opslaan</button>
+                        <a href="{{ route('staff.reports.index') }}">
+                            <button type="button" class="btn btn-ghost">Annuleren</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+@include('partials.footer')
 </body>
 </html>
