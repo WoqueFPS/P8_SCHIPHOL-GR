@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Flight;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,13 +10,13 @@ class FlightController extends Controller
 {
     public function index()
     {
-        $flights = \App\Models\Flight::all();
+        $flights = Flight::all();
         return view('staff.flights.index', compact('flights'));
     }
 
     public function show($id)
     {
-        $flight = \App\Models\Flight::findOrFail($id);
+        $flight = Flight::findOrFail($id);
         return view('flights.show', compact('flight'));
     }
 
@@ -36,15 +37,85 @@ class FlightController extends Controller
 
     public function manage()
     {
-        // check for staff guard with role
+        $this->authorizeStaff();
+
+        $flights = Flight::all();
+
+        return view('staff.flights.index', compact('flights'));
+    }
+
+    public function create()
+    {
+        $this->authorizeStaff();
+
+        $flight = new Flight();
+
+        return view('staff.flights.manage', compact('flight'));
+    }
+
+    public function edit(Flight $flight)
+    {
+        $this->authorizeStaff();
+
+        return view('staff.flights.manage', compact('flight'));
+    }
+
+    public function store(Request $request)
+    {
+        $this->authorizeStaff();
+
+        $data = $this->validateData($request);
+        Flight::create($data);
+
+        return redirect()->route('staff.flights.manage')->with('success', 'Vlucht toegevoegd.');
+    }
+
+    public function update(Request $request, Flight $flight)
+    {
+        $this->authorizeStaff();
+
+        $data = $this->validateData($request);
+        $flight->update($data);
+
+        return redirect()->route('staff.flights.manage')->with('success', 'Vlucht bijgewerkt.');
+    }
+
+    public function destroy(Flight $flight)
+    {
+        $this->authorizeStaff();
+
+        $flight->delete();
+
+        return redirect()->route('staff.flights.manage')->with('success', 'Vlucht verwijderd.');
+    }
+
+    private function authorizeStaff(): void
+    {
         $staff = Auth::guard('staff')->user();
-        
+
         if (!$staff || !in_array($staff->role, ['coordinator', 'directeur'])) {
             abort(403, 'Alleen toegankelijk voor vluchtcoordinatoren en directie.');
         }
+    }
 
-        $flights = \App\Models\Flight::all();
+    private function validateData(Request $request): array
+    {
+        return $request->validate([
+            'flight_number'  => 'required|string|max:10',
+            'airline'        => 'required|string|max:50',
+            'airline_code'   => 'nullable|string|max:5',
+            'origin'         => 'required|string|max:100',
+            'destination'    => 'required|string|max:100',
+            'gate'           => 'nullable|string|max:10',
+            'terminal'       => 'nullable|string|max:5',
 
-        return view('staff.flights.manage', compact('flights'));
+            'type' => 'required|in:arriving,departing',
+
+            'status' => 'required|in:op-tijd,vertraging,boarding,geland,geannuleerd',
+
+            'scheduled_time' => 'required|date_format:H:i',
+
+            'delay_minutes' => 'nullable|integer|min:0',
+        ]);
     }
 }
