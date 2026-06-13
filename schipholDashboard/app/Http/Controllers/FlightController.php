@@ -68,6 +68,12 @@ class FlightController extends Controller
         $this->authorizeStaff();
 
         $data = $this->validateData($request);
+
+        // Afbeelding verwerken en opslaan
+        if ($request->hasFile('airline_logo')) {
+            $data['airline_logo'] = $request->file('airline_logo')->store('logos', 'public');
+        }
+
         Flight::create($data);
 
         return redirect()->route('staff.flights.manage')->with('success', 'Vlucht succesvol toegevoegd.');
@@ -78,6 +84,12 @@ class FlightController extends Controller
         $this->authorizeStaff();
 
         $data = $this->validateData($request);
+
+        // checken of er een nieuw logo geupload wordt
+        if ($request->hasFile('airline_logo')) {
+            $data['airline_logo'] = $request->file('airline_logo')->store('logos', 'public');
+        }
+
         $flight->update($data);
 
         return redirect()->route('staff.flights.manage')->with('success', 'Vlucht succesvol bijgewerkt.');
@@ -108,6 +120,7 @@ class FlightController extends Controller
             'flight_number'  => 'required|string|max:10',
             'airline'        => 'required|string|max:50',
             'airline_code'   => 'nullable|string|max:5',
+            'airline_logo'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', //2MB max
             'origin'         => 'required|string|max:100',
             'destination'    => 'required|string|max:100',
             'gate'           => 'nullable|string|max:10',
@@ -116,6 +129,8 @@ class FlightController extends Controller
             'status'         => 'required|in:op-tijd,vertraging,boarding,geland,geannuleerd',
             'scheduled_time' => 'required|date_format:H:i',
             'delay_minutes'  => 'nullable|integer|min:0',
+            'gate_type'     => 'required|in:standaard,uitgebreid',
+            'status' => 'required|in:op-tijd,vertraging,boarding,geland,geannuleerd,gepland,toekomstig',
         ]);
     }
 }
