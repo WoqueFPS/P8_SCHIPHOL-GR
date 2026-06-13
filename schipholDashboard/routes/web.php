@@ -5,6 +5,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Staff\ReportController;
 use App\Http\Controllers\Staff\AuthController as StaffAuthController;
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
@@ -17,33 +18,26 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // statische pagina
 Route::get('/terms', fn() => view('pages.terms'))->name('terms.show');
 
-//publieke vluchtinfo
+// publieke vluchtinfo
 Route::get('/flights', [FlightController::class, 'index'])->name('flights.index');
 Route::get('/flights/search', [FlightController::class, 'search'])->name('flights.search');
 Route::get('/flights/{flight}', [FlightController::class, 'show'])->name('flights.show');
 
-//REIZIGERS web guard
+// REIZIGERS web guard
 
-// gasten only (niet ingelogde reizigers)
 Route::middleware('guest')->group(function () {
-
     Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
-
 });
 
-// terms routes staan buiten auth middleware omdat we willen dat mensen die nog niet akkoord hebben gegaan hier ook bij kunnen
 Route::get('/terms-verify', [TermsController::class, 'showTerms'])->name('terms.verify');
 Route::post('/terms/accept', [TermsController::class, 'acceptTerms'])->name('terms.accept');
 Route::post('/terms/reject', [TermsController::class, 'rejectTerms'])->name('terms.reject');
 
-
-//uitloggen
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Ingelogde reizigers
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -58,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/wishlist/{flight}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 });
 
-// MEDEWERKERS staff guard   /staff/
+// MEDEWERKERS staff guard /staff/
 
 Route::prefix('staff')->name('staff.')->group(function () {
 
@@ -67,12 +61,10 @@ Route::prefix('staff')->name('staff.')->group(function () {
         Route::post('/login', [StaffAuthController::class, 'login']);
     });
 
-    // uitloggen
     Route::post('/logout', [StaffAuthController::class, 'logout'])
         ->name('logout')
         ->middleware('auth:staff');
 
-    // alle ingelogde medewerkers
     Route::middleware('auth:staff')->group(function () {
 
         Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
@@ -80,11 +72,15 @@ Route::prefix('staff')->name('staff.')->group(function () {
         // vluchtcoordinatoren + directeur
         Route::middleware('role:coordinator,directeur')->group(function () {
             Route::get('/flights-management', [FlightController::class, 'manage'])->name('flights.manage');
+            Route::get('/flights-management/create', [FlightController::class, 'create'])->name('flights.create');
+            Route::post('/flights-management', [FlightController::class, 'store'])->name('flights.store');
+            Route::get('/flights-management/{flight}/edit', [FlightController::class, 'edit'])->name('flights.edit');
+            Route::put('/flights-management/{flight}', [FlightController::class, 'update'])->name('flights.update');
+            Route::delete('/flights-management/{flight}', [FlightController::class, 'destroy'])->name('flights.destroy');
         });
 
         // directeur
         Route::middleware('role:directeur')->group(function () {
-            // original report
             Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
             Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
             Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
@@ -92,8 +88,7 @@ Route::prefix('staff')->name('staff.')->group(function () {
             Route::put('/reports/{id}', [ReportController::class, 'update'])->name('reports.update');
             Route::delete('/reports/{id}', [ReportController::class, 'destroy'])->name('reports.destroy');
             Route::get('/reports/{id}', [ReportController::class, 'show'])->name('reports.show');
-            
-            // api routes database
+
             Route::post('/director/toggle-noodmodus', [ReportController::class, 'toggleNoodmodus'])->name('director.toggle-noodmodus');
             Route::post('/director/set-priority', [ReportController::class, 'setPriority'])->name('director.set-priority');
             Route::post('/director/broadcast', [ReportController::class, 'broadcastMessage'])->name('director.broadcast');
