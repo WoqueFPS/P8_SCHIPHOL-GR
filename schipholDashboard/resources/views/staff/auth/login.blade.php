@@ -49,7 +49,7 @@
         <main class="login-admin-form-panel">
             <p class="login-admin-form-eyebrow">Toegangsbeheer</p>
             <h1 class="login-admin-form-title">Beheerder login</h1>
-            <p class="login-admin-form-sub">Beveiligde toegang — alleen bevoegd personeel</p>
+            <p class="login-admin-form-sub">Coördinatoren: log in met User ID — Directie: E-mail of User ID</p>
 
             {{-- Validation errors --}}
             @if ($errors->any())
@@ -63,18 +63,18 @@
                 @csrf
 
                 <div class="login-admin-field-group">
-                    <label class="login-admin-field-label" for="login-admin-email">E-mailadres</label>
+                    <label class="login-admin-field-label" for="login-admin-username">E-mailadres of Personeelsnummer (User ID)</label>
                     <div class="login-admin-field-wrap">
                         <span class="login-admin-field-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                         </span>
                         <input
                             class="login-admin-field-input"
-                            type="email"
-                            id="login-admin-email"
-                            name="email"
-                            value="{{ old('email') }}"
-                            placeholder="bruce.wayne @schiphol.nl"
+                            type="text"
+                            id="login-admin-username"
+                            name="login"
+                            value="{{ old('login') }}"
+                            placeholder="AMS-001 of mail@schiphol.nl"
                             autocomplete="username"
                             required
                             autofocus

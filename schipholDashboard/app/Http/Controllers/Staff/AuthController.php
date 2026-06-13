@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Staff;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Staff;
 
 class AuthController extends Controller
 {
@@ -20,10 +21,33 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email'    => ['required', 'email'],
+        $request->validate([
+            'login'    => ['required', 'string'],
             'password' => ['required'],
         ]);
+
+        $loginInput = $request->input('login');
+        $isEmail = filter_var($loginInput, FILTER_VALIDATE_EMAIL);
+
+        $staffMember = Staff::where('email', $loginInput)
+            ->orWhere('employee_id', $loginInput)
+            ->first();
+
+        if ($staffMember) {
+            // extra restrictie als de gebruiker een coordinator is mag het geen emailadres zijn
+            if ($staffMember->isCoordinator() && $isEmail) {
+                return back()
+                    ->withErrors(['login' => 'Coördinatoren dienen verplicht in te loggen met hun Personeelsnummer (User ID).'])
+                    ->onlyInput('login');
+            }
+        }
+
+        $loginType = $isEmail ? 'email' : 'employee_id';
+
+        $credentials = [
+            $loginType => $loginInput,
+            'password' => $request->input('password'),
+        ];
 
         if (Auth::guard('staff')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
@@ -31,9 +55,10 @@ class AuthController extends Controller
             return $this->redirectByRole();
         }
 
+        // standaard foutmelding bij onjuist wachtwoord of onbekende gebruiker
         return back()
-            ->withErrors(['email' => 'Ongeldige inloggegevens. Probeer het opnieuw.'])
-            ->onlyInput('email');
+            ->withErrors(['login' => 'Ongeldige inloggegevens. Probeer het opnieuw.'])
+            ->onlyInput('login');
     }
 
 
