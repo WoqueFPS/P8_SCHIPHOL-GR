@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class FlightController extends Controller
 {
+    // REIZIGERS / GASTEN
     public function index()
     {
         $flights = Flight::all();
-        return view('staff.flights.index', compact('flights'));
+        return view('flights.index', compact('flights'));
     }
 
     public function show($id)
@@ -35,6 +36,8 @@ class FlightController extends Controller
         return "Removed from wishlist " . $flight;
     }
 
+
+    // STAFF / VLUCHTCOORDINATOREN
     public function manage()
     {
         $this->authorizeStaff();
@@ -67,7 +70,7 @@ class FlightController extends Controller
         $data = $this->validateData($request);
         Flight::create($data);
 
-        return redirect()->route('staff.flights.manage')->with('success', 'Vlucht toegevoegd.');
+        return redirect()->route('staff.flights.manage')->with('success', 'Vlucht succesvol toegevoegd.');
     }
 
     public function update(Request $request, Flight $flight)
@@ -77,7 +80,7 @@ class FlightController extends Controller
         $data = $this->validateData($request);
         $flight->update($data);
 
-        return redirect()->route('staff.flights.manage')->with('success', 'Vlucht bijgewerkt.');
+        return redirect()->route('staff.flights.manage')->with('success', 'Vlucht succesvol bijgewerkt.');
     }
 
     public function destroy(Flight $flight)
@@ -86,9 +89,10 @@ class FlightController extends Controller
 
         $flight->delete();
 
-        return redirect()->route('staff.flights.manage')->with('success', 'Vlucht verwijderd.');
+        return redirect()->route('staff.flights.manage')->with('success', 'Vlucht succesvol verwijderd.');
     }
 
+    // BEVEILIGING & VALIDATIE
     private function authorizeStaff(): void
     {
         $staff = Auth::guard('staff')->user();
@@ -108,14 +112,10 @@ class FlightController extends Controller
             'destination'    => 'required|string|max:100',
             'gate'           => 'nullable|string|max:10',
             'terminal'       => 'nullable|string|max:5',
-
-            'type' => 'required|in:arriving,departing',
-
-            'status' => 'required|in:op-tijd,vertraging,boarding,geland,geannuleerd',
-
+            'type'           => 'required|in:arriving,departing',
+            'status'         => 'required|in:op-tijd,vertraging,boarding,geland,geannuleerd',
             'scheduled_time' => 'required|date_format:H:i',
-
-            'delay_minutes' => 'nullable|integer|min:0',
+            'delay_minutes'  => 'nullable|integer|min:0',
         ]);
     }
 }
