@@ -604,3 +604,38 @@ document.addEventListener('DOMContentLoaded', function(){
     })
     .catch(error => console.error('Error loading settings:', error));
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const tabs   = document.querySelectorAll('.schedule__tab');
+    const rows   = document.querySelectorAll('.schedule__row');
+    const search = document.getElementById('scheduleSearch');
+
+    let activeFilter = 'all';
+
+    function applyFilters() {
+        const query = search ? search.value.trim().toLowerCase() : '';
+
+        rows.forEach(function (row) {
+            const matchesFilter = activeFilter === 'all' || row.dataset.type === activeFilter;
+            const matchesSearch = !query || row.dataset.search.includes(query);
+
+            row.style.display = (matchesFilter && matchesSearch) ? '' : 'none';
+        });
+    }
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            tabs.forEach(function (t) {
+                t.classList.remove('schedule__tab--active');
+            });
+            tab.classList.add('schedule__tab--active');
+
+            activeFilter = tab.dataset.filter;
+            applyFilters();
+        });
+    });
+
+    if (search) {
+        search.addEventListener('input', applyFilters);
+    }
+});
