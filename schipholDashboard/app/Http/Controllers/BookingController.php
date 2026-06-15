@@ -23,7 +23,6 @@ class BookingController extends Controller
 
         $booking = Booking::create([
             'booking_number' => Str::uuid(),
-
             'first_name' => $validated['first_name'],
             'last_name'  => $validated['last_name'],
             'address'    => $validated['address'],
@@ -40,9 +39,11 @@ class BookingController extends Controller
 
     public function confirmation($bookingNumber)
     {
-        return view('bookings.confirmation', [
-            'bookingNumber' => $bookingNumber
-        ]);
+        $booking = Booking::with('flight', 'traveler')
+            ->where('booking_number', $bookingNumber)
+            ->firstOrFail();
+
+        return view('bookings.confirmation', compact('booking'));
     }
 
     public function show($booking)
@@ -58,6 +59,7 @@ class BookingController extends Controller
     public function index()
     {
         $bookings = Booking::all();
+
         return view('bookings.index', compact('bookings'));
     }
 }

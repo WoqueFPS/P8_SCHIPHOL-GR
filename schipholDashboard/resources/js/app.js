@@ -639,3 +639,13 @@ document.addEventListener('DOMContentLoaded', function () {
         search.addEventListener('input', applyFilters);
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const printBtn = document.getElementById('printBookingBtn');
+
+    if (printBtn) {
+        printBtn.addEventListener('click', function () {
+            window.print();
+        });
+    }
+});
