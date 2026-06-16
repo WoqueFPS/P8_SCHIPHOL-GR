@@ -24,6 +24,7 @@ return new class extends Migration
             $table->enum('status', ['op-tijd', 'vertraging', 'boarding', 'geland', 'geannuleerd']);
             $table->time('scheduled_time');
             $table->integer('delay_minutes')->default(0);
+            $table->enum('gate_type', ['standaard', 'uitgebreid'])->default('standaard');
             $table->timestamps();
         });
     }
