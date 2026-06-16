@@ -11,12 +11,15 @@ use App\Http\Controllers\Staff\AuthController as StaffAuthController;
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\TermsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // statische pagina
 Route::get('/terms', fn() => view('pages.terms'))->name('terms.show');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 // publieke vluchtinfo
 Route::get('/flights', [FlightController::class, 'index'])->name('flights.index');
@@ -67,7 +70,15 @@ Route::prefix('staff')->name('staff.')->group(function () {
 
     Route::middleware('auth:staff')->group(function () {
 
-        Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/redirect', function () {
+        $user = auth()->guard('staff')->user();
+
+        if ($user->hasRole('directeur')) {
+            return redirect()->route('staff.reports.index');
+        }
+            
+        return redirect()->route('staff.flights.manage');
+    })->name('redirect');
 
         // vluchtcoordinatoren + directeur
         Route::middleware('role:coordinator,directeur')->group(function () {

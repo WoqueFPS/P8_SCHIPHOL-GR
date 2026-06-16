@@ -16,12 +16,13 @@
 @include('partials.navbar')
 
 {{-- PAGINA HEADER --}}
-<section class="flights-hero">
-    <div class="flights-hero__inner">
-        <span class="flights-hero__eyebrow">Reiziger</span>
-        <h1 class="flights-hero__title">Vluchten bekijken</h1>
-        <p class="flights-hero__desc">
-            Bekijk alle beschikbare vluchten en boek direct je ticket.
+<section class="schedule-hero">
+    <div class="schedule-hero__inner">
+        <span class="schedule-hero__eyebrow">Vluchten</span>
+        <h1 class="schedule-hero__title">Vluchtschema</h1>
+        <p class="schedule-hero__desc">
+            Overzicht van alle geplande vluchten met vertrek- en aankomsttijden,
+            luchtvaartmaatschappij, terminal en gate.
         </p>
         <div class="flights-hero__search">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

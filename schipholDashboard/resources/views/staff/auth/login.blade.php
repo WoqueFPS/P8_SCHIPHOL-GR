@@ -48,7 +48,7 @@
         {{-- form panel --}}
         <main class="login-admin-form-panel">
             <p class="login-admin-form-eyebrow">Toegangsbeheer</p>
-            <h1 class="login-admin-form-title">Beheerder login</h1>
+            <h1 class="login-admin-form-title">PERSONEELS LOGIN</h1>
             <p class="login-admin-form-sub">Coördinatoren: log in met User ID — Directie: E-mail of User ID</p>
 
             {{-- Validation errors --}}

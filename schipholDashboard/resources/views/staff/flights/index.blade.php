@@ -1,90 +1,113 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
-    <title>Vluchtcoordinatie</title>
-    @vite('resources/css/app.css')
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schiphol Dashboard</title>
+    <link rel="icon" href="{{ asset('images/logo/schiphol.png') }}" type="image/png">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-
-<div>
-    <div>
-        <h1>Vluchtcoordinatie</h1>
+<body class="fc-body">
+{{-- NAVBAR --}}
+@include('partials.navbar')
+<div class="fc-page">
+    <div class="fc-header">
+        <h1 class="fc-title">Vluchtcoördinatie</h1>
         <a href="{{ route('staff.flights.create') }}">
-            <button type="button">+ Vlucht toevoegen</button>
+            <button type="button" class="fc-btn fc-btn--primary">+ Vlucht toevoegen</button>
         </a>
     </div>
 
+    @if(isset($broadcast) && $broadcast)
+        <div class="fc-broadcast-box">
+            <h4>Mededeling van de directie:</h4>
+            <p>{{ $broadcast->message }}</p>
+            <small><em>Verzonden door: {{ $broadcast->sender->name ?? 'Directie' }}</em></small>
+        </div>
+    @endif
+
     @if (session('success'))
-        <div>
+        <div class="fc-alert fc-alert--success">
             {{ session('success') }}
         </div>
     @endif
 
-    <table>
-        <thead>
-            <tr>
-                <th>Vlucht</th>
-                <th>Maatschappij</th>
-                <th>Route</th>
-                <th>Tijd</th>
-                <th>Gate (Grootte)</th>
-                <th>Status</th>
-                <th>Acties</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($flights as $flight)
+    <div class="fc-table-wrap">
+        <table class="fc-table">
+            <thead>
                 <tr>
-                    <td>{{ $flight->flight_number }}</td>
-                    
-                    <td>
-                        <div>
-                            @if($flight->airline_logo)
-                                <img src="{{ asset('storage/' . $flight->airline_logo) }}" alt="Logo">
-                            @endif
-                            <span>{{ $flight->airline }} ({{ $flight->airline_code }})</span>
-                        </div>
-                    </td>
-                    
-                    <td>{{ $flight->origin }} &rarr; {{ $flight->destination }}</td>
-                    <td>{{ \Illuminate\Support\Carbon::parse($flight->scheduled_time)->format('H:i') }}</td>
-                    
-                    <td>
-                        {{ $flight->gate ?? '-' }} 
-                        (T{{ $flight->terminal ?? '-' }}) 
-                        - {{ ucfirst($flight->gate_type ?? 'standaard') }}
-                    </td>
-                    
-                    <td>
-                        @if($flight->status === 'toekomstig')
-                            <span>Toekomstig (Verlanglijst)</span>
-                        @elseif($flight->status === 'gepland')
-                            <span>Gepland (Aanwezigheid)</span>
-                        @else
-                            <span>{{ ucfirst($flight->status) }}</span>
-                        @endif
-                    </td>
-                    
-                    <td>
-                        <a href="{{ route('staff.flights.edit', $flight) }}">
-                            <button type="button">Wijzigen</button>
-                        </a>
-                        <form method="POST" action="{{ route('staff.flights.destroy', $flight) }}" onsubmit="return confirm('Vlucht verwijderen?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Verwijderen</button>
-                        </form>
-                    </td>
+                    <th>Vlucht</th>
+                    <th>Maatschappij</th>
+                    <th>Route</th>
+                    <th>Tijd</th>
+                    <th>Gate (Grootte)</th>
+                    <th>Status</th>
+                    <th>Acties</th>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="7">Geen vluchten gevonden.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @forelse ($flights as $flight)
+                    <tr class="fc-row">
+                        <td class="fc-cell fc-cell--mono">{{ $flight->flight_number }}</td>
 
+                        <td class="fc-cell">
+                            <div class="fc-airline">
+                                @if($flight->airline_logo)
+                                    <img class="fc-airline__logo" src="{{ asset('storage/' . $flight->airline_logo) }}" alt="Logo">
+                                @endif
+                                <span class="fc-airline__name">{{ $flight->airline }} ({{ $flight->airline_code }})</span>
+                            </div>
+                        </td>
+
+                        <td class="fc-cell fc-cell--route">{{ $flight->origin }} → {{ $flight->destination }}</td>
+                        <td class="fc-cell fc-cell--mono">{{ \Illuminate\Support\Carbon::parse($flight->scheduled_time)->format('H:i') }}</td>
+
+                        <td class="fc-cell">
+                            <span class="fc-gate">
+                                {{ $flight->gate ?? '-' }}
+                                (T{{ $flight->terminal ?? '-' }})
+                                – {{ ucfirst($flight->gate_type ?? 'standaard') }}
+                            </span>
+                        </td>
+
+                        <td class="fc-cell">
+                            @if($flight->status === 'toekomstig')
+                                <span class="fc-badge fc-badge--future">Toekomstig</span>
+                            @elseif($flight->status === 'gepland')
+                                <span class="fc-badge fc-badge--planned">Gepland</span>
+                            @else
+                                <span class="fc-badge fc-badge--default">{{ ucfirst($flight->status) }}</span>
+                            @endif
+                        </td>
+
+                        <td class="fc-cell fc-cell--actions">
+                            <a href="{{ route('staff.flights.edit', $flight) }}">
+                                <button type="button" class="fc-btn fc-btn--ghost">Wijzigen</button>
+                            </a>
+                            <form method="POST" action="{{ route('staff.flights.destroy', $flight) }}" onsubmit="return confirm('Vlucht verwijderen?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="fc-btn fc-btn--danger">Verwijderen</button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="fc-empty">Geen vluchten gevonden.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+        <form action="{{ route('staff.logout') }}" method="POST" style="margin: 28px 0 20px 0;">
+            @csrf
+            <button type="submit" class="reports-dsh-btn reports-dsh-btn-ghost">Uitloggen</button>
+        </form>
+</div>
+{{-- FOOTER --}}
+@include('partials.footer')
 </body>
 </html>

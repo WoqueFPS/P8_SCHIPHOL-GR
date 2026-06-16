@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Flight;
+use App\Models\DirectorBroadcast;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,10 +17,19 @@ class FlightController extends Controller
         return view('flights.index', compact('flights'));
     }
 
-    public function show($id)
+    public function show(Flight $flight)
     {
-        $flight = Flight::findOrFail($id);
-        return view('flights.show', compact('flight'));
+        $alternativeFlights = collect();
+
+        if ($flight->seats_available <= 0) {
+            $alternativeFlights = Flight::where('destination', $flight->destination)
+                ->where('id', '!=', $flight->id)
+                ->where('seats_available', '>', 0)
+                ->orderBy('departure_time')
+                ->get();
+        }
+
+        return view('flights.show', compact('flight', 'alternativeFlights'));
     }
 
     public function search()
@@ -42,8 +52,11 @@ class FlightController extends Controller
     public function manage()
     {
         $this->authorizeStaff();
-        $flights = Flight::orderBy('scheduled_time')->get();
-        return view('staff.flights.index', compact('flights'));
+
+        $flights = Flight::all();
+        $broadcast = DirectorBroadcast::getActiveBroadcast();
+
+        return view('staff.flights.index', compact('flights', 'broadcast'));
     }
 
     public function create()
@@ -116,10 +129,10 @@ class FlightController extends Controller
             'gate'           => 'nullable|string|max:10',
             'terminal'       => 'nullable|string|max:5',
             'type'           => 'required|in:arriving,departing',
-            'status'         => 'required|in:op-tijd,vertraging,boarding,geland,geannuleerd,gepland,toekomstig',
             'scheduled_time' => 'required|date_format:H:i',
             'delay_minutes'  => 'nullable|integer|min:0',
             'gate_type'      => 'required|in:standaard,uitgebreid',
+            'status'         => 'required|in:op-tijd,vertraging,boarding,geland,geannuleerd,gepland,toekomstig',
         ]);
     }
 }

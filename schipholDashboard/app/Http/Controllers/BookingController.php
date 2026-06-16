@@ -39,11 +39,21 @@ class BookingController extends Controller
             'phone'          => $request->phone,
         ]);
 
+        $flight->decrement('seats_available');
+
         Mail::to($booking->email)->send(new BookingConfirmation($booking));
 
         return redirect()->route('bookings.confirmation', [
             'bookingNumber' => $booking->booking_number
         ]);
+
+        $flight = Flight::findOrFail($request->flight_id);
+
+        if ($flight->seats_available <= 0) {
+            return redirect()
+                ->route('flights.show', $flight->id)
+                ->with('error', 'Deze vlucht is volgeboekt. Kies een alternatieve vlucht.');
+        }
     }
 
     public function confirmation($bookingNumber)

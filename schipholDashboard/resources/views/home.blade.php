@@ -119,17 +119,17 @@
 
             {{-- Medewerkers Knop (vangt staff guard op) --}}
             @auth('staff')
-                <a href="{{ route('staff.dashboard') }}" class="homepage-hero-card homepage-hero-card--light">
-                    <span class="homepage-hero-card__icon">ST</span>
-                    <strong class="homepage-hero-card__title">Medewerkers Portaal</strong>
-                    <span class="homepage-hero-card__sub">Je bent ingelogd. Ga naar dashboard</span>
-                </a>
+            <a href="{{ route('staff.redirect') }}" class="homepage-hero-card homepage-hero-card--light">
+                <span class="homepage-hero-card__icon">ST</span>
+                <strong class="homepage-hero-card__title">Medewerkers Portaal</strong>
+                <span class="homepage-hero-card__sub">Je bent ingelogd. Ga naar dashboard</span>
+            </a>
             @else
-                <a href="{{ route('staff.login') }}" class="homepage-hero-card homepage-hero-card--light">
-                    <span class="homepage-hero-card__icon">ST</span>
-                    <strong class="homepage-hero-card__title">Medewerkers Portaal</strong>
-                    <span class="homepage-hero-card__sub">Login voor coördinatoren & directie</span>
-                </a>
+            <a href="{{ route('staff.login') }}" class="homepage-hero-card homepage-hero-card--light">
+                <span class="homepage-hero-card__icon">ST</span>
+                <strong class="homepage-hero-card__title">Medewerkers Portaal</strong>
+                <span class="homepage-hero-card__sub">Login voor coördinatoren & directie</span>
+            </a>
             @endauth
         </div>
     </div>

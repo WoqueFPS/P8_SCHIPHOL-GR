@@ -11,6 +11,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
+    
+{{-- NAVBAR --}}
+@include('partials.navbar')
 
 <div class="register-wrapper">
 
@@ -173,5 +176,7 @@
 
 </div>
 
+{{-- FOOTER --}}
+@include('partials.footer')
 </body>
 </html>
