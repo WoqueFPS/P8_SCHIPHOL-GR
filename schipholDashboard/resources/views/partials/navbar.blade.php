@@ -2,15 +2,14 @@
   <div class="site-nav__inner">
 
     <a href="{{ route('home') }}" class="site-nav__logo">
-      <div class="site-nav__logo-mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 16.5l-10-13-10 13"/>
-          <path d="M2 16.5h20"/>
-          <path d="M12 3.5v13"/>
-        </svg>
-      </div>
-      <span class="site-nav__logo-text">Gatekeepers <span class="site-nav__logo-accent">Schiphol</span></span>
-    </a>
+    <img src="{{ asset('img/schiphol-logo.png') }}"
+         alt="Schiphol Logo"
+         class="site-nav__logo-image">
+
+    <span class="site-nav__logo-text">
+        Gatekeepers <span class="site-nav__logo-accent">Schiphol</span>
+    </span>
+</a>
 
     <ul class="site-nav__links">
       <li><a href="{{ route('home') }}" class="site-nav__link {{ request()->routeIs('home') ? 'site-nav__link--active' : '' }}">Home</a></li>

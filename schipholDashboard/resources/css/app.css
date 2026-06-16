@@ -1846,9 +1846,17 @@ p {
 .site-nav__logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     text-decoration: none;
     flex-shrink: 0;
+}
+
+.site-nav__logo-image {
+    height: 45px;
+    width: auto;
+    max-width: 100%;
+    display: block;
+    object-fit: contain;
 }
 
 .site-nav__logo-mark {
