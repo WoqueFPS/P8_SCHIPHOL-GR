@@ -9,3 +9,61 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/*
+  Global base styling for dark mode.
+  Works automatically because dark-mode.js toggles `html.dark`.
+*/
+:root {
+    color-scheme: light;
+
+    --app-bg: #fdfdfc;
+    --app-fg: #1b1b18;
+    --app-muted: #706f6c;
+    --app-border: #e3e3e0;
+    --app-card: #ffffff;
+}
+
+html.dark {
+    color-scheme: dark;
+
+    --app-bg: #0a0a0a;
+    --app-fg: #ededec;
+    --app-muted: #a1a09a;
+    --app-border: #3e3e3a;
+    --app-card: #161615;
+}
+
+body {
+    background: var(--app-bg);
+    color: var(--app-fg);
+}
+
+a {
+    color: inherit;
+}
+
+/* Keep form controls readable even if pages don’t specify dark: variants */
+input,
+select,
+textarea,
+button {
+    color: inherit;
+}
+
+input,
+select,
+textarea {
+    background-color: var(--app-card);
+    border: 1px solid var(--app-border);
+}
+
+button {
+    background-color: transparent;
+    border: 1px solid var(--app-border);
+}
+
+hr {
+    border-top: 1px solid var(--app-border);
+}
+
