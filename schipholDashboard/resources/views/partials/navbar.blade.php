@@ -15,6 +15,7 @@
     <ul class="site-nav__links">
       <li><a href="{{ route('home') }}" class="site-nav__link {{ request()->routeIs('home') ? 'site-nav__link--active' : '' }}">Home</a></li>
       <li><a href="{{ route('flights.index') }}" class="site-nav__link {{ request()->routeIs('flights.*') ? 'site-nav__link--active' : '' }}">Vluchten</a></li>
+      <li><a href="{{ route('contact.index') }}" class="site-nav__link {{ request()->routeIs('contact.index') ? 'site-nav__link--active' : '' }}">Contact</a></li>
       @auth
         <li><a href="{{ route('bookings.index') }}" class="site-nav__link {{ request()->routeIs('bookings.*') ? 'site-nav__link--active' : '' }}">Mijn boekingen</a></li>
       @endauth

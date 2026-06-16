@@ -11,12 +11,15 @@ use App\Http\Controllers\Staff\AuthController as StaffAuthController;
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\TermsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // statische pagina
 Route::get('/terms', fn() => view('pages.terms'))->name('terms.show');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 // publieke vluchtinfo
 Route::get('/flights', [FlightController::class, 'index'])->name('flights.index');
@@ -76,8 +79,6 @@ Route::prefix('staff')->name('staff.')->group(function () {
             
         return redirect()->route('staff.flights.manage');
     })->name('redirect');
-
-        Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
 
         // vluchtcoordinatoren + directeur
         Route::middleware('role:coordinator,directeur')->group(function () {
