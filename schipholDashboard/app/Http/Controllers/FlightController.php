@@ -16,10 +16,19 @@ class FlightController extends Controller
         return view('flights.index', compact('flights'));
     }
 
-    public function show($id)
+    public function show(Flight $flight)
     {
-        $flight = Flight::findOrFail($id);
-        return view('flights.show', compact('flight'));
+        $alternativeFlights = collect();
+
+        if ($flight->seats_available <= 0) {
+            $alternativeFlights = Flight::where('destination', $flight->destination)
+                ->where('id', '!=', $flight->id)
+                ->where('seats_available', '>', 0)
+                ->orderBy('departure_time')
+                ->get();
+        }
+
+        return view('flights.show', compact('flight', 'alternativeFlights'));
     }
 
     public function search()
