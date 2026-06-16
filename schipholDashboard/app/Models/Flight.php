@@ -10,7 +10,6 @@ class Flight extends Model
         'flight_number',
         'airline',
         'airline_code',
-        'airline_logo',
         'origin',
         'destination',
         'gate',
@@ -19,36 +18,51 @@ class Flight extends Model
         'status',
         'scheduled_time',
         'delay_minutes',
-        'gate_type',
+        'seats_available',
+        'price',
     ];
 
-
+    /**
+     * Relatie met Bookings
+     */
     public function bookings()
     {
-        return $this->hasMany(\App\Models\Booking::class);
+        return $this->hasMany(Booking::class);
     }
 
-
+    /**
+     * Scope: Aankomende vluchten
+     */
     public function scopeArriving($query)
     {
         return $query->where('type', 'arriving');
     }
 
+    /**
+     * Scope: Vertrekkende vluchten
+     */
     public function scopeDeparting($query)
     {
         return $query->where('type', 'departing');
     }
 
-
     /**
-     * Consistente prijs op basis van vlucht-ID — zelfde vlucht = zelfde prijs altijd.
+     * Prijs (berekend op basis van ID en bestemming)
      */
     public function getPriceAttribute(): float
     {
+        // Als price al in de database staat, gebruik die
+        if (isset($this->attributes['price']) && $this->attributes['price'] > 0) {
+            return (float) $this->attributes['price'];
+        }
+
+        // Anders berekenen
         $seed = crc32($this->id . $this->destination);
         mt_srand(abs($seed));
 
-        if ($this->gate_type === 'uitgebreid') {
+        // Gebruik gate_type als die bestaat, anders standaard
+        $gateType = $this->gate_type ?? 'standaard';
+        if ($gateType === 'uitgebreid') {
             $base = mt_rand(280, 650);
         } else {
             $base = mt_rand(89, 279);
@@ -78,6 +92,14 @@ class Flight extends Model
      */
     public function getIsBookableAttribute(): bool
     {
-        return in_array($this->status, ['op-tijd', 'vertraging']);
+        return in_array($this->status, ['op-tijd', 'vertraging', 'scheduled']);
+    }
+
+    /**
+     * Beschikbare stoelen (met default)
+     */
+    public function getSeatsAvailableAttribute()
+    {
+        return $this->attributes['seats_available'] ?? 100;
     }
 }

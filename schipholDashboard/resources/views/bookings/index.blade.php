@@ -6,13 +6,10 @@
     <title>Mijn Boekingen - Schiphol Dashboard</title>
     <link rel="icon" href="{{ asset('images/logo/schiphol.png') }}" type="image/png">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Expires" content="0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 
-{{-- NAVBAR --}}
 @include('partials.navbar')
 
 {{-- PAGINA HEADER --}}
@@ -31,7 +28,6 @@
     <div class="bookings__container">
 
         @if($bookings->isEmpty())
-            {{-- Lege staat --}}
             <div class="bookings__empty">
                 <div class="bookings__empty-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -45,13 +41,11 @@
                 <p class="bookings__empty-desc">Je hebt nog geen vluchten geboekt. Bekijk het aanbod en maak je eerste boeking.</p>
                 <a href="{{ route('flights.index') }}" class="bookings__empty-btn">Vluchten bekijken</a>
             </div>
-
         @else
             <div class="bookings__grid">
                 @foreach($bookings as $booking)
                 <div class="bookings__card">
 
-                    {{-- Card header --}}
                     <div class="bookings__card-header">
                         <div class="bookings__card-number">
                             <span class="bookings__card-number-label">Boekingsnr.</span>
@@ -62,16 +56,11 @@
                         </span>
                     </div>
 
-                    {{-- Vluchtgegevens --}}
                     @if($booking->flight)
                         <div class="bookings__card-flight">
                             <div class="bookings__card-airline">
                                 <span class="bookings__card-badge">
-                                    @if($booking->flight->airline_logo)
-                                        <img src="{{ asset('storage/'.$booking->flight->airline_logo) }}" alt="{{ $booking->flight->airline }}">
-                                    @else
-                                        {{ $booking->flight->airline_code }}
-                                    @endif
+                                    {{ $booking->flight->airline_code }}
                                 </span>
                                 <div>
                                     <div class="bookings__card-flight-number">{{ $booking->flight->flight_number }}</div>
@@ -121,7 +110,6 @@
                         <p class="bookings__card-no-flight">Geen vluchtgegevens beschikbaar.</p>
                     @endif
 
-                    {{-- Reiziger --}}
                     <div class="bookings__card-passenger">
                         <span class="bookings__card-passenger-name">
                             {{ $booking->first_name }} {{ $booking->last_name }}
@@ -129,7 +117,6 @@
                         <span class="bookings__card-passenger-email">{{ $booking->email }}</span>
                     </div>
 
-                    {{-- Acties --}}
                     <div class="bookings__card-actions">
                         <a href="{{ route('bookings.confirmation', $booking->booking_number) }}" class="bookings__card-btn bookings__card-btn--ghost">
                             Details bekijken
@@ -152,7 +139,6 @@
     </div>
 </section>
 
-{{-- FOOTER --}}
 @include('partials.footer')
 
 </body>

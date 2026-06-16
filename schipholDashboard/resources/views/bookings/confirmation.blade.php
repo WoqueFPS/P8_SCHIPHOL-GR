@@ -6,13 +6,10 @@
     <title>Boekingsbevestiging - Schiphol Dashboard</title>
     <link rel="icon" href="{{ asset('images/logo/schiphol.png') }}" type="image/png">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Expires" content="0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 
-{{-- NAVBAR --}}
 @include('partials.navbar')
 
 {{-- SUCCES HEADER --}}
@@ -82,11 +79,7 @@
 
                         <div class="confirmation__flight-main">
                             <span class="confirmation__airline-badge">
-                                @if($booking->flight->airline_logo)
-                                    <img src="{{ asset('storage/'.$booking->flight->airline_logo) }}" alt="{{ $booking->flight->airline }}">
-                                @else
-                                    {{ $booking->flight->airline_code }}
-                                @endif
+                                {{ $booking->flight->airline_code }}
                             </span>
                             <div>
                                 <div class="confirmation__flight-number">{{ $booking->flight->flight_number }}</div>
@@ -180,7 +173,13 @@
     </div>
 </section>
 
-{{-- FOOTER --}}
+{{-- Print functie --}}
+<script>
+document.getElementById('printBookingBtn')?.addEventListener('click', function() {
+    window.print();
+});
+</script>
+
 @include('partials.footer')
 
 </body>
