@@ -47,7 +47,7 @@ class Flight extends Model
     }
 
     /**
-     * Prijs (berekend op basis van ID en bestemming)
+     * Bereken realistische prijs op basis van bestemming en afstand
      */
     public function getPriceAttribute(): float
     {
@@ -56,19 +56,130 @@ class Flight extends Model
             return (float) $this->attributes['price'];
         }
 
-        // Anders berekenen
-        $seed = crc32($this->id . $this->destination);
-        mt_srand(abs($seed));
+        // Basis prijzen per regio (in euros)
+        $prices = [
+            // Europa (korte vluchten)
+            'London' => [80, 150],
+            'Paris' => [70, 130],
+            'Berlin' => [90, 160],
+            'Madrid' => [100, 190],
+            'Rome' => [110, 200],
+            'Barcelona' => [100, 180],
+            'Lisbon' => [120, 220],
+            'Dublin' => [85, 155],
+            'Vienna' => [95, 170],
+            'Prague' => [90, 165],
+            'Budapest' => [100, 175],
+            'Warsaw' => [95, 160],
+            'Stockholm' => [110, 195],
+            'Oslo' => [115, 200],
+            'Copenhagen' => [105, 185],
+            'Helsinki' => [120, 210],
+            'Athens' => [130, 240],
+            'Istanbul' => [140, 260],
+            'Kuwait City' => [180, 350],
+            'Dubai' => [200, 400],
+            'Abu Dhabi' => [190, 380],
+            'Doha' => [185, 370],
+            
+            // Noord-Amerika
+            'New York' => [350, 650],
+            'Toronto' => [320, 590],
+            'Chicago' => [340, 620],
+            'Los Angeles' => [400, 750],
+            'Miami' => [360, 680],
+            'Boston' => [330, 610],
+            'Washington' => [340, 630],
+            'San Francisco' => [420, 780],
+            'Vancouver' => [350, 640],
+            'Montreal' => [310, 580],
+            
+            // Zuid-Amerika
+            'Sao Paulo' => [380, 720],
+            'Rio de Janeiro' => [390, 740],
+            'Buenos Aires' => [400, 760],
+            'Mexico City' => [350, 660],
+            'Bogota' => [340, 630],
+            'Lima' => [360, 680],
+            
+            // Azie
+            'Tokyo' => [450, 850],
+            'Beijing' => [420, 790],
+            'Shanghai' => [410, 770],
+            'Hong Kong' => [430, 810],
+            'Singapore' => [440, 830],
+            'Bangkok' => [380, 720],
+            'Kuala Lumpur' => [390, 740],
+            'Seoul' => [430, 800],
+            'Mumbai' => [370, 700],
+            'Delhi' => [360, 680],
+            'Jakarta' => [400, 750],
+            
+            // Afrika
+            'Cape Town' => [420, 790],
+            'Johannesburg' => [400, 750],
+            'Nairobi' => [380, 710],
+            'Cairo' => [320, 600],
+            'Casablanca' => [280, 520],
+            'Tunis' => [260, 480],
+            
+            // Oceanie
+            'Sydney' => [500, 950],
+            'Melbourne' => [510, 960],
+            'Auckland' => [490, 930],
+            
+            // Midden-Oosten (extra)
+            'Tehran' => [250, 460],
+            'Riyadh' => [220, 410],
+            'Jeddah' => [230, 420],
+            'Muscat' => [210, 390],
+            'Manama' => [200, 370],
+            
+            // Overig / standaard
+            'default' => [99, 250],
+        ];
 
-        // Gebruik gate_type als die bestaat, anders standaard
-        $gateType = $this->gate_type ?? 'standaard';
-        if ($gateType === 'uitgebreid') {
-            $base = mt_rand(280, 650);
-        } else {
-            $base = mt_rand(89, 279);
+        // Zoek de bestemming in de array
+        $destination = $this->destination;
+        $priceRange = null;
+        
+        foreach ($prices as $key => $range) {
+            if (strpos($destination, $key) !== false) {
+                $priceRange = $range;
+                break;
+            }
         }
 
-        return floor($base) + 0.99;
+        // Als geen match, gebruik default
+        if (!$priceRange) {
+            $priceRange = $prices['default'];
+        }
+
+        // Genereer een consistente prijs op basis van flight ID
+        // Zo blijft de prijs hetzelfde voor dezelfde vlucht
+        $seed = crc32($this->id . $this->destination . $this->airline);
+        mt_srand(abs($seed));
+        
+        $min = $priceRange[0];
+        $max = $priceRange[1];
+        
+        // Random prijs binnen de range, afgerond op 5 of 9
+        $price = mt_rand($min, $max);
+        
+        // Rond af op 9 of 5 voor realistische prijzen
+        $lastDigit = $price % 10;
+        if ($lastDigit < 5) {
+            $price = $price - $lastDigit + 5;
+        } else {
+            $price = $price - $lastDigit + 9;
+        }
+        
+        // Zorg dat de prijs niet onder de minimum komt
+        if ($price < $min) {
+            $price = $min;
+        }
+        
+        return (float) $price;
     }
 
     /**

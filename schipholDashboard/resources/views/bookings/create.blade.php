@@ -84,7 +84,7 @@
 
         @if(($flight->seats_available ?? 100) <= 0 && isset($alternativeFlights) && $alternativeFlights->count())
             <div class="booking-form__alternatives">
-                <h3 class="booking-form__alternatives-title">🔄 Alternatieve vluchten</h3>
+                <h3 class="booking-form__alternatives-title"> Alternatieve vluchten</h3>
                 
                 @foreach($alternativeFlights as $alternative)
                     <div class="booking-form__alternative">
@@ -96,7 +96,7 @@
                                 {{ $alternative->origin }} → {{ $alternative->destination }}
                             </span>
                             <span class="booking-form__alternative-seats">
-                                🪑 {{ $alternative->seats_available }} stoelen beschikbaar
+                                 {{ $alternative->seats_available }} stoelen beschikbaar
                             </span>
                         </div>
                         <a href="{{ route('flights.show', $alternative->id) }}" class="booking-form__alternative-btn">
