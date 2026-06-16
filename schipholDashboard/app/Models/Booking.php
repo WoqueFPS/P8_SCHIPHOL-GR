@@ -8,11 +8,12 @@ class Booking extends Model
 {
     protected $fillable = [
         'booking_number',
+        'flight_id',
         'first_name',
         'last_name',
         'address',
         'email',
-        'phone'
+        'phone',
     ];
 
     public function traveler()

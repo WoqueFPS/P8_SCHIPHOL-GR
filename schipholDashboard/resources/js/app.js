@@ -649,3 +649,43 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const tabs   = document.querySelectorAll('.flights__tab');
+    const cards  = document.querySelectorAll('.flights__card');
+    const search = document.getElementById('flightsSearch');
+    const count  = document.getElementById('flightsCount');
+
+    let activeFilter = 'all';
+
+    function applyFilters() {
+        const query = search ? search.value.trim().toLowerCase() : '';
+        let visible = 0;
+
+        cards.forEach(function (card) {
+            const matchesFilter = activeFilter === 'all' || card.dataset.type === activeFilter;
+            const matchesSearch = !query || card.dataset.search.includes(query);
+            const show = matchesFilter && matchesSearch;
+
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+
+        if (count) count.textContent = visible + ' vluchten';
+    }
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            tabs.forEach(function (t) {
+                t.classList.remove('flights__tab--active');
+            });
+            tab.classList.add('flights__tab--active');
+            activeFilter = tab.dataset.filter;
+            applyFilters();
+        });
+    });
+
+    if (search) {
+        search.addEventListener('input', applyFilters);
+    }
+});

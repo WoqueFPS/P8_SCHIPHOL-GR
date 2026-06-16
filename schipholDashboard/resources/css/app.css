@@ -4596,3 +4596,1995 @@ table.reports-dsh-coordinators tbody tr:hover td {
     }
 }
 
+
+
+/* ================================================
+   BOOKINGS — PAGINA HEADER
+   ================================================ */
+
+.bookings-hero {
+    background: linear-gradient(135deg, var(--green-900) 0%, var(--green-700) 60%, var(--green-600) 100%);
+    padding: 48px 40px;
+}
+
+.bookings-hero__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bookings-hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--green-300);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.bookings-hero__title {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.bookings-hero__desc {
+    font-family: var(--font-serif);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1rem;
+    max-width: 600px;
+}
+
+/* ================================================
+   BOOKINGS — CONTENT
+   ================================================ */
+
+.bookings {
+    background: var(--gray-50);
+    padding: 40px;
+    min-height: 60vh;
+}
+
+.bookings__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Lege staat */
+.bookings__empty {
+    text-align: center;
+    padding: 64px 20px;
+}
+
+.bookings__empty-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--green-100);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--green-600);
+}
+
+.bookings__empty-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.bookings__empty-title {
+    font-size: 1.3rem;
+    color: var(--gray-800);
+    margin-bottom: 8px;
+}
+
+.bookings__empty-desc {
+    font-family: var(--font-serif);
+    color: var(--gray-600);
+    font-size: 0.95rem;
+    max-width: 400px;
+    margin: 0 auto 24px;
+}
+
+.bookings__empty-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green-600);
+    color: var(--white);
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.bookings__empty-btn:hover {
+    background: var(--green-700);
+}
+
+/* Grid */
+.bookings__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+}
+
+/* Card */
+.bookings__card {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.15s;
+}
+
+.bookings__card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+/* Card header */
+.bookings__card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 14px 20px;
+    background: var(--green-900);
+}
+
+.bookings__card-number {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.bookings__card-number-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--green-300);
+}
+
+.bookings__card-number-value {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--white);
+    word-break: break-all;
+}
+
+.bookings__card-date {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.55);
+    flex-shrink: 0;
+}
+
+/* Vlucht */
+.bookings__card-flight {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.bookings__card-airline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.bookings__card-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    background: var(--green-100);
+    color: var(--green-700);
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.bookings__card-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.bookings__card-flight-number {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--gray-800);
+}
+
+.bookings__card-flight-airline {
+    font-size: 0.78rem;
+    color: var(--gray-600);
+}
+
+.bookings__card-route {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.bookings__card-point {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.bookings__card-point-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.bookings__card-point-value {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--green-700);
+}
+
+.bookings__card-arrow {
+    width: 18px;
+    height: 18px;
+    color: var(--green-400);
+    flex-shrink: 0;
+}
+
+.bookings__card-details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.bookings__card-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.bookings__card-detail-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.bookings__card-detail-value {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+/* Status badge */
+.bookings__status {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 3px 8px;
+    border-radius: 100px;
+}
+
+.bookings__status--op-tijd    { background: var(--green-100); color: var(--green-700); }
+.bookings__status--vertraging  { background: #fef3c7; color: #92400e; }
+.bookings__status--geland      { background: #dbeafe; color: #1e40af; }
+.bookings__status--boarding    { background: #f3e8ff; color: #6b21a8; }
+.bookings__status--geannuleerd { background: #fee2e2; color: #b91c1c; }
+.bookings__status--gepland     { background: var(--gray-100); color: var(--gray-600); }
+
+.bookings__card-no-flight {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+/* Reiziger */
+.bookings__card-passenger {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--gray-100);
+    background: var(--gray-50);
+}
+
+.bookings__card-passenger-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.bookings__card-passenger-email {
+    font-size: 0.78rem;
+    color: var(--gray-600);
+}
+
+/* Acties */
+.bookings__card-actions {
+    display: flex;
+    gap: 10px;
+    padding: 14px 20px;
+    margin-top: auto;
+}
+
+.bookings__card-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 9px 14px;
+    border-radius: 9px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.bookings__card-btn svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.bookings__card-btn--ghost {
+    background: var(--white);
+    color: var(--gray-800);
+    border: 1.5px solid var(--gray-200);
+}
+
+.bookings__card-btn--ghost:hover {
+    border-color: var(--green-300);
+    background: var(--green-50);
+}
+
+.bookings__card-btn--primary {
+    background: var(--green-600);
+    color: var(--white);
+}
+
+.bookings__card-btn--primary:hover {
+    background: var(--green-700);
+}
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+
+@media (max-width: 768px) {
+    .bookings-hero {
+        padding: 36px 20px;
+    }
+
+    .bookings {
+        padding: 24px 20px;
+    }
+
+    .bookings__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .bookings__card-details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ================================================
+   FLIGHTS INDEX — PAGINA HEADER
+   ================================================ */
+
+.flights-hero {
+    background: linear-gradient(135deg, var(--green-900) 0%, var(--green-700) 60%, var(--green-600) 100%);
+    padding: 48px 40px;
+}
+
+.flights-hero__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.flights-hero__eyebrow {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--green-300);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.flights-hero__title {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.flights-hero__desc {
+    font-family: var(--font-serif);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1rem;
+    margin-bottom: 24px;
+}
+
+.flights-hero__search {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
+    border-radius: 10px;
+    padding: 0 0 0 16px;
+    max-width: 560px;
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+}
+
+.flights-hero__search svg {
+    width: 18px;
+    height: 18px;
+    color: rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.flights-hero__search input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 13px 0;
+    font-size: 0.92rem;
+    color: var(--white);
+    font-family: var(--font-body);
+}
+
+.flights-hero__search input::placeholder {
+    color: rgba(255, 255, 255, 0.50);
+}
+
+/* ================================================
+   FLIGHTS INDEX — CONTENT
+   ================================================ */
+
+.flights {
+    background: var(--gray-50);
+    padding: 40px;
+    min-height: 60vh;
+}
+
+.flights__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.flights__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.flights__tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 4px;
+}
+
+.flights__tab {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--gray-600);
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.flights__tab:hover { color: var(--green-700); }
+
+.flights__tab--active {
+    background: var(--green-600);
+    color: var(--white);
+}
+
+.flights__count {
+    font-size: 0.82rem;
+    color: var(--gray-600);
+}
+
+/* Vlucht kaart */
+.flights__card {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.flights__card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--green-200);
+}
+
+.flights__card-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 160px;
+    flex-shrink: 0;
+}
+
+.flights__card-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--green-100);
+    color: var(--green-700);
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.flights__card-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.flights__card-number {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gray-800);
+}
+
+.flights__card-airline {
+    font-size: 0.78rem;
+    color: var(--gray-600);
+}
+
+.flights__card-route {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+}
+
+.flights__card-point {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.flights__card-point--right {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.flights__card-point-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.flights__card-point-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green-700);
+}
+
+.flights__card-route-line svg {
+    width: 20px;
+    height: 20px;
+    color: var(--green-400);
+}
+
+.flights__card-details {
+    display: flex;
+    gap: 24px;
+    flex-shrink: 0;
+}
+
+.flights__card-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 52px;
+}
+
+.flights__card-detail-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.flights__card-detail-value {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.flights__card-delay {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #b45309;
+    margin-left: 4px;
+}
+
+.flights__card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.flights__card-status {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 4px 10px;
+    border-radius: 100px;
+}
+
+.flights__card-status--op-tijd    { background: var(--green-100); color: var(--green-700); }
+.flights__card-status--vertraging  { background: #fef3c7; color: #92400e; }
+.flights__card-status--geland      { background: #dbeafe; color: #1e40af; }
+.flights__card-status--boarding    { background: #f3e8ff; color: #6b21a8; }
+.flights__card-status--geannuleerd { background: #fee2e2; color: #b91c1c; }
+.flights__card-status--gepland     { background: var(--gray-100); color: var(--gray-600); }
+
+.flights__card-btn {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 9px;
+    text-decoration: none;
+    background: var(--green-600);
+    color: var(--white);
+    transition: background 0.15s;
+    white-space: nowrap;
+}
+
+.flights__card-btn:hover { background: var(--green-700); }
+
+.flights__card-btn--ghost {
+    background: var(--white);
+    color: var(--gray-600);
+    border: 1.5px solid var(--gray-200);
+    font-size: 0.78rem;
+}
+
+.flights__card-btn--ghost:hover {
+    border-color: var(--green-300);
+    background: var(--green-50);
+}
+
+.flights__empty {
+    text-align: center;
+    padding: 60px;
+    color: var(--gray-600);
+    font-size: 0.9rem;
+}
+
+/* ================================================
+   FLIGHTS SHOW — BOEKEN PAGINA
+   ================================================ */
+
+.booking-hero {
+    background: linear-gradient(135deg, var(--green-900) 0%, var(--green-700) 60%, var(--green-600) 100%);
+    padding: 48px 40px;
+}
+
+.booking-hero__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.booking-hero__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+
+.booking-hero__back svg {
+    width: 16px;
+    height: 16px;
+}
+
+.booking-hero__back:hover { color: var(--white); }
+
+.booking-hero__eyebrow {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--green-300);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.booking-hero__title {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    color: var(--white);
+    margin-bottom: 6px;
+}
+
+.booking-hero__desc {
+    font-family: var(--font-serif);
+    color: rgba(255, 255, 255, 0.70);
+    font-size: 0.95rem;
+}
+
+.booking-page {
+    background: var(--gray-50);
+    padding: 40px;
+    min-height: 60vh;
+}
+
+.booking-page__container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.booking-page__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.booking-page__section-title {
+    font-size: 1rem;
+    color: var(--gray-800);
+    margin-bottom: 14px;
+}
+
+/* Vlucht samenvatting kaart */
+.booking-summary {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.booking-summary__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.booking-summary__badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--green-100);
+    color: var(--green-700);
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.booking-summary__badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.booking-summary__number {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    flex: 1;
+}
+
+.booking-summary__airline {
+    font-size: 0.78rem;
+    color: var(--gray-600);
+}
+
+.booking-summary__status {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 4px 10px;
+    border-radius: 100px;
+    flex-shrink: 0;
+}
+
+.booking-summary__status--op-tijd    { background: var(--green-100); color: var(--green-700); }
+.booking-summary__status--vertraging  { background: #fef3c7; color: #92400e; }
+.booking-summary__status--geland      { background: #dbeafe; color: #1e40af; }
+.booking-summary__status--boarding    { background: #f3e8ff; color: #6b21a8; }
+.booking-summary__status--geannuleerd { background: #fee2e2; color: #b91c1c; }
+.booking-summary__status--gepland     { background: var(--gray-100); color: var(--gray-600); }
+
+.booking-summary__route {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.booking-summary__point {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.booking-summary__point--right {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.booking-summary__point-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.booking-summary__point-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green-700);
+}
+
+.booking-summary__arrow {
+    width: 20px;
+    height: 20px;
+    color: var(--green-400);
+    flex-shrink: 0;
+}
+
+.booking-summary__details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    padding: 18px 20px;
+}
+
+.booking-summary__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.booking-summary__detail-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.booking-summary__detail-value {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.booking-summary__delay {
+    font-size: 0.75rem;
+    color: #b45309;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+/* Kostenoverzicht */
+.booking-costs {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.booking-costs__title {
+    font-size: 0.92rem;
+    color: var(--gray-800);
+    margin-bottom: 14px;
+}
+
+.booking-costs__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.booking-costs__row--total {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--gray-800);
+    border-bottom: none;
+    margin-top: 4px;
+}
+
+.booking-costs__note {
+    font-family: var(--font-serif);
+    font-size: 0.78rem;
+    color: var(--gray-600);
+    margin-top: 12px;
+    line-height: 1.6;
+}
+
+/* Formulier */
+.booking-form__alert {
+    display: flex;
+    gap: 10px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    font-size: 0.85rem;
+    color: #b91c1c;
+}
+
+.booking-form__alert svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.booking-form__alert p { margin: 0; }
+
+.booking-form {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.booking-form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.booking-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.booking-form__label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.booking-form__input {
+    padding: 10px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: var(--gray-800);
+    background: var(--gray-50);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.booking-form__input:hover {
+    border-color: var(--green-300);
+}
+
+.booking-form__input:focus {
+    border-color: var(--green-500);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(74, 158, 101, 0.12);
+}
+
+.booking-form__input--error {
+    border-color: #e05252;
+    background: #fff8f8;
+}
+
+.booking-form__checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+.booking-form__checkbox input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 5px;
+    background: var(--gray-50);
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.booking-form__checkbox input[type="checkbox"]:checked {
+    background: var(--green-500);
+    border-color: var(--green-500);
+}
+
+.booking-form__checkbox input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1 5l3.5 3.5L11 1' stroke='%23fff' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/10px no-repeat;
+}
+
+.booking-form__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    background: var(--green-600);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px rgba(58, 125, 82, 0.30);
+}
+
+.booking-form__submit svg {
+    width: 18px;
+    height: 18px;
+}
+
+.booking-form__submit:hover {
+    background: var(--green-700);
+    box-shadow: 0 4px 16px rgba(45, 106, 63, 0.35);
+}
+
+.booking-form__submit:active {
+    transform: scale(0.98);
+}
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+
+@media (max-width: 900px) {
+    .booking-page__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .flights-hero,
+    .booking-hero {
+        padding: 36px 20px;
+    }
+
+    .flights,
+    .booking-page {
+        padding: 24px 20px;
+    }
+
+    .flights__card {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .flights__card-right {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+@media (max-width: 540px) {
+    .booking-form__row {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-summary__details {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ================================================
+   FLIGHTS INDEX — PAGINA HEADER
+   ================================================ */
+
+.flights-hero {
+    background: linear-gradient(135deg, var(--green-900) 0%, var(--green-700) 60%, var(--green-600) 100%);
+    padding: 48px 40px;
+}
+
+.flights-hero__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.flights-hero__eyebrow {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--green-300);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.flights-hero__title {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.flights-hero__desc {
+    font-family: var(--font-serif);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1rem;
+    margin-bottom: 24px;
+}
+
+.flights-hero__search {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
+    border-radius: 10px;
+    padding: 0 0 0 16px;
+    max-width: 560px;
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+}
+
+.flights-hero__search svg {
+    width: 18px;
+    height: 18px;
+    color: rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.flights-hero__search input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 13px 0;
+    font-size: 0.92rem;
+    color: var(--white);
+    font-family: var(--font-body);
+}
+
+.flights-hero__search input::placeholder {
+    color: rgba(255, 255, 255, 0.50);
+}
+
+/* ================================================
+   FLIGHTS INDEX — CONTENT
+   ================================================ */
+
+.flights {
+    background: var(--gray-50);
+    padding: 40px;
+    min-height: 60vh;
+}
+
+.flights__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.flights__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.flights__tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 4px;
+}
+
+.flights__tab {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--gray-600);
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.flights__tab:hover { color: var(--green-700); }
+
+.flights__tab--active {
+    background: var(--green-600);
+    color: var(--white);
+}
+
+.flights__count {
+    font-size: 0.82rem;
+    color: var(--gray-600);
+}
+
+/* Vlucht kaart */
+.flights__card {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.flights__card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--green-200);
+}
+
+.flights__card-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 160px;
+    flex-shrink: 0;
+}
+
+.flights__card-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--green-100);
+    color: var(--green-700);
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.flights__card-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.flights__card-number {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gray-800);
+}
+
+.flights__card-airline {
+    font-size: 0.78rem;
+    color: var(--gray-600);
+}
+
+.flights__card-route {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+}
+
+.flights__card-point {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.flights__card-point--right {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.flights__card-point-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.flights__card-point-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green-700);
+}
+
+.flights__card-route-line svg {
+    width: 20px;
+    height: 20px;
+    color: var(--green-400);
+}
+
+.flights__card-details {
+    display: flex;
+    gap: 24px;
+    flex-shrink: 0;
+}
+
+.flights__card-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 52px;
+}
+
+.flights__card-detail-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.flights__card-detail-value {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.flights__card-delay {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #b45309;
+    margin-left: 4px;
+}
+
+.flights__card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.flights__card-status {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 4px 10px;
+    border-radius: 100px;
+}
+
+.flights__card-status--op-tijd    { background: var(--green-100); color: var(--green-700); }
+.flights__card-status--vertraging  { background: #fef3c7; color: #92400e; }
+.flights__card-status--geland      { background: #dbeafe; color: #1e40af; }
+.flights__card-status--boarding    { background: #f3e8ff; color: #6b21a8; }
+.flights__card-status--geannuleerd { background: #fee2e2; color: #b91c1c; }
+.flights__card-status--gepland     { background: var(--gray-100); color: var(--gray-600); }
+
+.flights__card-btn {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 9px;
+    text-decoration: none;
+    background: var(--green-600);
+    color: var(--white);
+    transition: background 0.15s;
+    white-space: nowrap;
+}
+
+.flights__card-btn:hover { background: var(--green-700); }
+
+.flights__card-btn--ghost {
+    background: var(--white);
+    color: var(--gray-600);
+    border: 1.5px solid var(--gray-200);
+    font-size: 0.78rem;
+}
+
+.flights__card-btn--ghost:hover {
+    border-color: var(--green-300);
+    background: var(--green-50);
+}
+
+.flights__empty {
+    text-align: center;
+    padding: 60px;
+    color: var(--gray-600);
+    font-size: 0.9rem;
+}
+
+/* ================================================
+   FLIGHTS SHOW — BOEKEN PAGINA
+   ================================================ */
+
+.booking-hero {
+    background: linear-gradient(135deg, var(--green-900) 0%, var(--green-700) 60%, var(--green-600) 100%);
+    padding: 48px 40px;
+}
+
+.booking-hero__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.booking-hero__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: color 0.15s;
+}
+
+.booking-hero__back svg {
+    width: 16px;
+    height: 16px;
+}
+
+.booking-hero__back:hover { color: var(--white); }
+
+.booking-hero__eyebrow {
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--green-300);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.booking-hero__title {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    color: var(--white);
+    margin-bottom: 6px;
+}
+
+.booking-hero__desc {
+    font-family: var(--font-serif);
+    color: rgba(255, 255, 255, 0.70);
+    font-size: 0.95rem;
+}
+
+.booking-page {
+    background: var(--gray-50);
+    padding: 40px;
+    min-height: 60vh;
+}
+
+.booking-page__container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.booking-page__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.booking-page__section-title {
+    font-size: 1rem;
+    color: var(--gray-800);
+    margin-bottom: 14px;
+}
+
+/* Vlucht samenvatting kaart */
+.booking-summary {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.booking-summary__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.booking-summary__badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--green-100);
+    color: var(--green-700);
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.booking-summary__badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.booking-summary__number {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    flex: 1;
+}
+
+.booking-summary__airline {
+    font-size: 0.78rem;
+    color: var(--gray-600);
+}
+
+.booking-summary__status {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 4px 10px;
+    border-radius: 100px;
+    flex-shrink: 0;
+}
+
+.booking-summary__status--op-tijd    { background: var(--green-100); color: var(--green-700); }
+.booking-summary__status--vertraging  { background: #fef3c7; color: #92400e; }
+.booking-summary__status--geland      { background: #dbeafe; color: #1e40af; }
+.booking-summary__status--boarding    { background: #f3e8ff; color: #6b21a8; }
+.booking-summary__status--geannuleerd { background: #fee2e2; color: #b91c1c; }
+.booking-summary__status--gepland     { background: var(--gray-100); color: var(--gray-600); }
+
+.booking-summary__route {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.booking-summary__point {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.booking-summary__point--right {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.booking-summary__point-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.booking-summary__point-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green-700);
+}
+
+.booking-summary__arrow {
+    width: 20px;
+    height: 20px;
+    color: var(--green-400);
+    flex-shrink: 0;
+}
+
+.booking-summary__details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    padding: 18px 20px;
+}
+
+.booking-summary__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.booking-summary__detail-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.booking-summary__detail-value {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.booking-summary__delay {
+    font-size: 0.75rem;
+    color: #b45309;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+/* Kostenoverzicht */
+.booking-costs {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.booking-costs__title {
+    font-size: 0.92rem;
+    color: var(--gray-800);
+    margin-bottom: 14px;
+}
+
+.booking-costs__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.booking-costs__row--total {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--gray-800);
+    border-bottom: none;
+    margin-top: 4px;
+}
+
+.booking-costs__note {
+    font-family: var(--font-serif);
+    font-size: 0.78rem;
+    color: var(--gray-600);
+    margin-top: 12px;
+    line-height: 1.6;
+}
+
+/* Formulier */
+.booking-form__alert {
+    display: flex;
+    gap: 10px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    font-size: 0.85rem;
+    color: #b91c1c;
+}
+
+.booking-form__alert svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.booking-form__alert p { margin: 0; }
+
+.booking-form {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.booking-form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.booking-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.booking-form__label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+}
+
+.booking-form__input {
+    padding: 10px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: var(--gray-800);
+    background: var(--gray-50);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.booking-form__input:hover {
+    border-color: var(--green-300);
+}
+
+.booking-form__input:focus {
+    border-color: var(--green-500);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(74, 158, 101, 0.12);
+}
+
+.booking-form__input--error {
+    border-color: #e05252;
+    background: #fff8f8;
+}
+
+.booking-form__checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+.booking-form__checkbox input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 5px;
+    background: var(--gray-50);
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.booking-form__checkbox input[type="checkbox"]:checked {
+    background: var(--green-500);
+    border-color: var(--green-500);
+}
+
+.booking-form__checkbox input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1 5l3.5 3.5L11 1' stroke='%23fff' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/10px no-repeat;
+}
+
+.booking-form__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    background: var(--green-600);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px rgba(58, 125, 82, 0.30);
+}
+
+.booking-form__submit svg {
+    width: 18px;
+    height: 18px;
+}
+
+.booking-form__submit:hover {
+    background: var(--green-700);
+    box-shadow: 0 4px 16px rgba(45, 106, 63, 0.35);
+}
+
+.booking-form__submit:active {
+    transform: scale(0.98);
+}
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+
+@media (max-width: 900px) {
+    .booking-page__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .flights-hero,
+    .booking-hero {
+        padding: 36px 20px;
+    }
+
+    .flights,
+    .booking-page {
+        padding: 24px 20px;
+    }
+
+    .flights__card {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .flights__card-right {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+@media (max-width: 540px) {
+    .booking-form__row {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-summary__details {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Prijs in kaart */
+.flights__card-price {
+    color: var(--green-700);
+    font-weight: 700;
+}
+
+/* Niet beschikbaar knop */
+.flights__card-btn--disabled {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 9px;
+    background: var(--gray-100);
+    color: var(--gray-600);
+    cursor: not-allowed;
+    white-space: nowrap;
+    border: none;
+}
