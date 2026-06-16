@@ -53,9 +53,7 @@
                 <label for="verify-dashboardAgreeCheckbox">
                     <input type="checkbox" id="verify-dashboardAgreeCheckbox" disabled>
                     <span>Ik ga akkoord met de 
-                        <a href="{{ route('terms.show') }}" target="_blank" class="verify-inline-link" id="verify-termsLink">Algemene Voorwaarden</a> 
-                        en het 
-                        <a href="/privacy" target="_blank" class="verify-inline-link" id="verify-privacyLink">Privacybeleid</a>.
+                        <a href="{{ route('terms.show') }}" target="_blank" class="verify-inline-link" id="verify-termsLink">Algemene Voorwaarden</a>
                     </span>
                 </label>
             </div>
