@@ -4818,6 +4818,35 @@ table.reports-dsh-coordinators tbody tr:hover td {
     font-size: 0.9rem;
 }
 
+.fc-broadcast-box {
+    background: var(--amber-100);
+    border-left: 4px solid #d97706;
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.fc-broadcast-box h4 {
+    margin: 0 0 0.375rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--amber-800);
+}
+
+.fc-broadcast-box p{
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+    color: var(--gray-800);
+    line-height: 1.55;
+}
+
+.fc-broadcast-box small {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+}
+
 /* Responsive */
 @media (max-width: 768px){
     .fc-header {

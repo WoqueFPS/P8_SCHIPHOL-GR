@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         GateSeeder::class,
         RoleSeeder::class,
         StaffTestSeeder::class,
+        DirectorBroadcastSeeder::class,
         ]);
 
         User::updateOrCreate([       

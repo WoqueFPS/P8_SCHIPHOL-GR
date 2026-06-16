@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Flight;
+use App\Models\DirectorBroadcast;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,8 +44,9 @@ class FlightController extends Controller
         $this->authorizeStaff();
 
         $flights = Flight::all();
+        $broadcast = DirectorBroadcast::getActiveBroadcast();
 
-        return view('staff.flights.index', compact('flights'));
+        return view('staff.flights.index', compact('flights', 'broadcast'));
     }
 
     public function create()
@@ -120,17 +122,16 @@ class FlightController extends Controller
             'flight_number'  => 'required|string|max:10',
             'airline'        => 'required|string|max:50',
             'airline_code'   => 'nullable|string|max:5',
-            'airline_logo'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', //2MB max
+            'airline_logo'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'origin'         => 'required|string|max:100',
             'destination'    => 'required|string|max:100',
             'gate'           => 'nullable|string|max:10',
             'terminal'       => 'nullable|string|max:5',
             'type'           => 'required|in:arriving,departing',
-            'status'         => 'required|in:op-tijd,vertraging,boarding,geland,geannuleerd',
             'scheduled_time' => 'required|date_format:H:i',
             'delay_minutes'  => 'nullable|integer|min:0',
-            'gate_type'     => 'required|in:standaard,uitgebreid',
-            'status' => 'required|in:op-tijd,vertraging,boarding,geland,geannuleerd,gepland,toekomstig',
+            'gate_type'      => 'required|in:standaard,uitgebreid',
+            'status'         => 'required|in:op-tijd,vertraging,boarding,geland,geannuleerd,gepland,toekomstig',
         ]);
     }
 }

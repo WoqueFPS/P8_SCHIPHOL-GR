@@ -67,6 +67,16 @@ Route::prefix('staff')->name('staff.')->group(function () {
 
     Route::middleware('auth:staff')->group(function () {
 
+    Route::get('/redirect', function () {
+        $user = auth()->guard('staff')->user();
+
+        if ($user->hasRole('directeur')) {
+            return redirect()->route('staff.reports.index');
+        }
+            
+        return redirect()->route('staff.flights.manage');
+    })->name('redirect');
+
         Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('dashboard');
 
         // vluchtcoordinatoren + directeur

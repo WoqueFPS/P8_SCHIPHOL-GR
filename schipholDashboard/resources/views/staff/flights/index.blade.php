@@ -21,6 +21,14 @@
         </a>
     </div>
 
+    @if(isset($broadcast) && $broadcast)
+        <div class="fc-broadcast-box">
+            <h4>Mededeling van de directie:</h4>
+            <p>{{ $broadcast->message }}</p>
+            <small><em>Verzonden door: {{ $broadcast->sender->name ?? 'Directie' }}</em></small>
+        </div>
+    @endif
+
     @if (session('success'))
         <div class="fc-alert fc-alert--success">
             {{ session('success') }}
@@ -94,6 +102,10 @@
             </tbody>
         </table>
     </div>
+        <form action="{{ route('staff.logout') }}" method="POST" style="margin: 28px 0 20px 0;">
+            @csrf
+            <button type="submit" class="reports-dsh-btn reports-dsh-btn-ghost">Uitloggen</button>
+        </form>
 </div>
 {{-- FOOTER --}}
 @include('partials.footer')
