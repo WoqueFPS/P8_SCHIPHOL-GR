@@ -18,7 +18,7 @@
 {{-- PAGINA HEADER --}}
 <section class="schedule-hero">
     <div class="schedule-hero__inner">
-        <span class="schedule-hero__eyebrow">Vluchtcoördinator</span>
+        <span class="schedule-hero__eyebrow">Vluchten</span>
         <h1 class="schedule-hero__title">Vluchtschema</h1>
         <p class="schedule-hero__desc">
             Overzicht van alle geplande vluchten met vertrek- en aankomsttijden,
