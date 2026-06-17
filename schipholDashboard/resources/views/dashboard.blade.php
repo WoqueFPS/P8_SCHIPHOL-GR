@@ -6,6 +6,7 @@
     <title>Mijn Dashboard - Schiphol</title>
     <link rel="icon" href="{{ asset('images/logo/schiphol.png') }}" type="image/png">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="{{ asset('img/schiphol-logo.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="fc-body">

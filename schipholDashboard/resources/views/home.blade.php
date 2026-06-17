@@ -9,6 +9,7 @@
     {{-- cache uitzetten anders blijft het hangen --}}
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Expires" content="0">
+    <link rel="icon" type="image/png" href="{{ asset('img/schiphol-logo.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
